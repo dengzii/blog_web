@@ -85,8 +85,8 @@ class ArticleListItem extends React.Component<{ article: Article }, any> {
     }
 
     render() {
-        return (<Box paddingBottom={"16px"}>
-            <Card>
+        return (<Box paddingBottom={"16px"} width={"100%"}>
+
                 <CardContent>
                     <Typography color="textPrimary" gutterBottom variant={"h5"}
                                 component={"h2"}>{this._article.title}</Typography>
@@ -101,7 +101,6 @@ class ArticleListItem extends React.Component<{ article: Article }, any> {
                         <Button size={"small"} color={"primary"}>Read More</Button>
                     </Link>
                 </CardActions>
-            </Card>
         </Box>);
     }
 }
@@ -110,7 +109,6 @@ const StyleMainContainer = {
     paddingLeft: '40px',
     paddingTop: '50px',
     paddingRight: '40px',
-    height: '85vh',
 };
 
 export default ArticleListComponent

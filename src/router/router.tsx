@@ -4,7 +4,7 @@ import ArchiveComponent from "../component/ArchiveComponent";
 import AboutMeComponent from "../component/AboutMeComponent";
 
 export const Router = {
-    main: [
+    body: [
         {
             path: '/',
             exact:true,

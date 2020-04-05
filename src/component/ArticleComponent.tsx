@@ -1,5 +1,5 @@
 import React from "react";
-import {Grid, Paper, Typography} from "@material-ui/core";
+import {Box, Grid, Paper, Typography} from "@material-ui/core";
 
 const StyleMainContainer = {
     paddingLeft: '40px',
@@ -12,9 +12,9 @@ class ArticleComponent extends React.Component {
 
     render() {
         return (
-            <Grid container={true} justify={"center"} style={StyleMainContainer}>
-                <Grid item={true} xl={8} md={10} sm={12}>
-                    <Paper style={{padding: '48px 32px'}}>
+            <Grid  justify={"center"} style={StyleMainContainer}>
+                <Grid item={true} xl={12} md={12} sm={12}>
+                    <Box style={{padding: '16px 32px'}}>
                         <Typography variant={"h4"}  gutterBottom>
                             路由匹配原理
                         </Typography>
@@ -75,7 +75,7 @@ class ArticleComponent extends React.Component {
                         </Typography>
                         <br/>
 
-                    </Paper>
+                    </Box>
                 </Grid>
             </Grid>
         )

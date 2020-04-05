@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "4.5.2",
-    "@material-ui/icons": "4.5.1",
+    "@material-ui/core": "4.9.1",
+    "@material-ui/icons": "4.9.1",
     "@types/axios": "0.14.0",
     "@types/jest": "24.0.22",
     "@types/node": "12.12.6",
@@ -12,11 +12,12 @@
     "@types/react-router-dom": "5.1.2",
     "@types/rx": "4.1.1",
     "axios": "0.14.0",
-    "react": "^16.13.0",
+    "react": "16.11.0",
     "react-dom": "16.11.0",
     "react-router-dom": "5.1.2",
     "react-scripts": "3.2.0",
     "rxjs": "6.5.3",
+    "typeface-roboto": "0.0.75",
     "typescript": "3.7.2"
   },
   "scripts": {
