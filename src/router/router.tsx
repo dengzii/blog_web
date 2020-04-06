@@ -1,4 +1,4 @@
-import ArticleListComponent from "../component/ArticleListComponent";
+import ArticleList from "../component/ArticleList";
 import FriendsComponent from "../component/FriendsComponent";
 import ArchiveComponent from "../component/ArchiveComponent";
 import AboutMeComponent from "../component/AboutMeComponent";
@@ -8,11 +8,11 @@ export const Router = {
         {
             path: '/',
             exact:true,
-            component: ArticleListComponent
+            component: ArticleList
         },
         {
             path: '/home',
-            component: ArticleListComponent
+            component: ArticleList
         },
         {
             path: '/article',
@@ -24,7 +24,7 @@ export const Router = {
         },
         {
             path: '/category/:c',
-            component: ArticleListComponent
+            component: ArticleList
         },
         {
             path: '/about',

@@ -1,9 +1,10 @@
 import React from "react";
 import {Route, Switch} from "react-router-dom";
-import ArticleListComponent from "../component/ArticleListComponent";
+import ArticleList from "../component/ArticleList";
 import FriendsComponent from "../component/FriendsComponent";
 import ArticleComponent from "../component/ArticleComponent";
 import AboutMeComponent from "../component/AboutMeComponent";
+import ArchiveComponent from "../component/ArchiveComponent";
 
 export default class MainRouter extends React.Component {
 
@@ -14,20 +15,23 @@ export default class MainRouter extends React.Component {
                 <Route exact path="/article/:id">
                     <ArticleComponent/>
                 </Route>
-                <Route exact path="/category/:type">
-                    <ArticleListComponent/>
+                <Route exact path="/articles/:category">
+                    <ArticleList/>
                 </Route>
-                <Route exact path="/home">
-                    <ArticleListComponent/>
+                <Route exact path="/">
+                    <ArticleList/>
+                </Route>
+                <Route exact path="/articles">
+                    <ArticleList/>
+                </Route>
+                <Route exact path="/archive">
+                    <ArchiveComponent/>
                 </Route>
                 <Route exact path="/about">
                     <AboutMeComponent/>
                 </Route>
                 <Route exact path="/friends">
                     <FriendsComponent/>
-                </Route>
-                <Route exact path="/">
-                    <ArticleListComponent/>
                 </Route>
                 <Route path="*">
                     <h2>Not Found</h2>

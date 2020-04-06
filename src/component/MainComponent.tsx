@@ -1,10 +1,21 @@
 import React from 'react'
 import {BrowserRouter} from "react-router-dom";
 import Box from "@material-ui/core/Box";
-import {createStyles, Grid, Paper, Theme, Typography} from "@material-ui/core";
+import {
+    Breadcrumbs,
+    Chip,
+    createStyles,
+    emphasize,
+    Grid,
+    Paper,
+    Theme,
+    Typography,
+    withStyles
+} from "@material-ui/core";
 import MainRouter from "../router/MainRouter";
 import {makeStyles} from "@material-ui/core/styles";
 import NavComponent from "./NavComponent";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 function isMobile(): boolean {
     let mobileAgent = false;///Android|iPhone|iPod|BlackBerry/i.test(navigator.userAgent);
@@ -15,7 +26,7 @@ function isMobile(): boolean {
 let useStyle = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            background: '#eee',
+            background: theme.palette.grey["100"],
         },
         head: {
             paddingTop: theme.spacing(4),
@@ -24,13 +35,30 @@ let useStyle = makeStyles((theme: Theme) =>
         },
         title: {},
         body: {
-            paddingTop: theme.spacing(2)
+            paddingTop: theme.spacing(2),
+            minHeight: "100vh"
         },
         nav: {
             paddingTop: theme.spacing(2),
         }
     })
 );
+
+const StyledBreadcrumb = withStyles((theme: Theme) => ({
+    root: {
+        backgroundColor: theme.palette.grey[100],
+        height: theme.spacing(3),
+        color: theme.palette.grey[800],
+        fontWeight: theme.typography.fontWeightRegular,
+        '&:hover, &:focus': {
+            backgroundColor: theme.palette.grey[300],
+        },
+        '&:active': {
+            boxShadow: theme.shadows[1],
+            backgroundColor: emphasize(theme.palette.grey[300], 0.12),
+        },
+    },
+}))(Chip) as typeof Chip;
 
 export default function MainComponent() {
 
@@ -48,10 +76,10 @@ export default function MainComponent() {
                     <Grid item xs={12} md={10} lg={6}>
                         <Box className={classes.title}>
                             <Typography variant={"h4"}>
-                                dengzi blog
+                                dengzi's blog
                             </Typography>
-                            <Typography variant={'subtitle2'} color={"textSecondary"}>
-                                try your best, and be best you!
+                            <Typography variant={'subtitle1'} color={"textSecondary"}>
+                                Try your best, and be best you!
                             </Typography>
                         </Box>
                         <Grid item xs={12} className={classes.nav}>
@@ -59,7 +87,7 @@ export default function MainComponent() {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item className={classes.body} md={10} lg={6}>
+                <Grid item={true} className={classes.body} md={10} lg={6}>
                     <Paper elevation={0}>
                         <MainRouter/>
                     </Paper>

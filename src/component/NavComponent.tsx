@@ -12,7 +12,7 @@ const WhiteAppBar = withStyles({
 function NavComponent(props: RouteComponentProps) {
 
     const [value, setValue] = React.useState(0);
-    const tabs = ['Articles', 'Category', 'Archive', 'Friends'];
+    const tabs = ['Articles', 'Archive', 'About', 'Friends'];
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         props.history.push("/" + tabs[newValue].toLowerCase());
         setValue(newValue);
