@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Chip, createStyles} from "@material-ui/core";
+import {Box, Chip, createStyles, Fab, Grid, Paper} from "@material-ui/core";
 import ArticleListItem from "./ArticleListItem";
 import {makeStyles} from "@material-ui/core/styles";
 import {RouteComponentProps, withRouter} from "react-router-dom";
@@ -14,6 +14,10 @@ let classes = makeStyles((theme) =>
         chip: {
             marginLeft: theme.spacing(1),
             marginBottom: theme.spacing(1),
+        },
+        loadMore: {
+            marginTop: theme.spacing(4),
+            marginBottom: theme.spacing(4)
         }
     })
 );
@@ -49,12 +53,20 @@ const WithRouterCategoryChip = withRouter(CategoryChip);
 export default function ArticleList(props: { type?: string }) {
 
     const style = classes();
-    return (<Box className={style.main}>
-        <WithRouterCategoryChip/>
-        {getArticle().map((value) =>
-            (<ArticleListItem key={value.title} article={value}/>)
-        )}
-    </Box>);
+    return (<>
+        <Paper elevation={0}>
+            <Box className={style.main}>
+                <WithRouterCategoryChip/>
+                {getArticle().map((value) =>
+                    (<ArticleListItem key={value.title} article={value}/>)
+                )}
+
+            </Box>
+        </Paper>
+        <Grid container={true} justify={"center"}>
+            <Fab variant="extended" className={style.loadMore}>Load More</Fab>
+        </Grid>
+    </>);
 }
 
 function getArticle(): Article[] {

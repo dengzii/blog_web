@@ -1,5 +1,5 @@
 import React from 'react'
-import {Box, Button, createStyles} from "@material-ui/core";
+import {Box, Button, createStyles, Divider} from "@material-ui/core";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import {Link} from "react-router-dom";
@@ -16,7 +16,6 @@ let classes = makeStyles((theme) =>
             textDecoration: "none"
         },
         button: {
-            paddingLeft: theme.spacing(1),
             textDecoration: "none"
         }
     })

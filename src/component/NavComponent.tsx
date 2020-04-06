@@ -1,6 +1,6 @@
 import React from "react";
 import {AppBar, Tab, Tabs, withStyles} from "@material-ui/core";
-import {Link, RouteComponentProps, withRouter} from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 
 const WhiteAppBar = withStyles({
     root: {
@@ -12,7 +12,7 @@ const WhiteAppBar = withStyles({
 function NavComponent(props: RouteComponentProps) {
 
     const [value, setValue] = React.useState(0);
-    const tabs = ['Articles', 'Archive', 'About', 'Friends'];
+    const tabs = ['Articles', 'Archive', 'About', 'Friends', 'Lab'];
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         props.history.push("/" + tabs[newValue].toLowerCase());
         setValue(newValue);
@@ -27,9 +27,9 @@ function NavComponent(props: RouteComponentProps) {
 
     return (<WhiteAppBar position={"relative"} color={"default"}>
         <Tabs value={value} onChange={handleChange} aria-label={'navigation bar'} indicatorColor={"primary"}
-              textColor={"primary"}>
+              scrollButtons="auto" textColor={"primary"}>
             {(tabs.map((item) =>
-                (<Tab label={item} {...a11yProps(item)} key={item}><Link to={item}>item</Link></Tab>)
+                (<Tab label={item} {...a11yProps(item)} key={item}/>)
             ))}
         </Tabs>
     </WhiteAppBar>)
