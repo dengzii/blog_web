@@ -1,10 +1,10 @@
 import React from "react";
-import {Box, Chip, createStyles, Fab, Grid, Paper} from "@material-ui/core";
+import {Box, Chip, createStyles, Fab, Grid, Paper, Theme} from "@material-ui/core";
 import ArticleListItem from "./ArticleListItem";
 import {makeStyles} from "@material-ui/core/styles";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 
-let classes = makeStyles((theme) =>
+let classes = makeStyles((theme: Theme) =>
     createStyles({
         main: {
             paddingTop: theme.spacing(3),
@@ -29,8 +29,7 @@ export interface Article {
     view: number
 }
 
-function CategoryChip(props: RouteComponentProps) {
-
+const CategoryChip = withRouter((props: RouteComponentProps)=>{
     const category = ['Android', 'Python', 'Vue', 'React', 'TypeScript', 'Go'];
     const style = classes();
     let [currentPath, setCurrentPath] = React.useState(window.location.pathname.toLowerCase());
@@ -38,17 +37,15 @@ function CategoryChip(props: RouteComponentProps) {
         e.preventDefault();
         let cat = (e.currentTarget.textContent as string).toLowerCase();
         setCurrentPath(cat);
-        props.history.push("/articles/" + cat);
+        props.history.push("/category/" + cat);
     };
     return (<Box>
         {(category.map((value) =>
             <Chip key={value} className={style.chip} label={value} onClick={handleClick}
-                  color={(currentPath.includes(value.toLowerCase())) ? "primary" : "default"}/>
+                  color={(currentPath.endsWith(value.toLowerCase())) ? "primary" : "default"}/>
         ))}
     </Box>)
-}
-
-const WithRouterCategoryChip = withRouter(CategoryChip);
+});
 
 export default function ArticleList(props: { type?: string }) {
 
@@ -56,7 +53,7 @@ export default function ArticleList(props: { type?: string }) {
     return (<>
         <Paper elevation={0}>
             <Box className={style.main}>
-                <WithRouterCategoryChip/>
+                <CategoryChip/>
                 {getArticle().map((value) =>
                     (<ArticleListItem key={value.title} article={value}/>)
                 )}

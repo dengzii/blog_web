@@ -37,7 +37,7 @@ export default function ArticleComponent() {
     const styles = style();
     return (
         <Grid container justify={"center"} spacing={1}>
-            <Grid item={true} className={styles.root} xs={12} md={9} lg={9}>
+            <Grid item={true} className={styles.root} xs={12} md={9} >
                 <Paper elevation={0}>
                     <Box className={styles.titleBox} hidden>
                         <Typography variant={"h4"} component={"span"} gutterBottom align={"justify"}>
@@ -56,7 +56,7 @@ export default function ArticleComponent() {
 
                 </Paper>
             </Grid>
-            <Grid item={true} xs={12} md={3} lg={3}>
+            <Grid item={true} xs={12} md={3} >
                 <Paper elevation={0} className={styles.sideCard}>
                     {infos.map((value) => (<ListItem key={value}>{value}</ListItem>))}
                 </Paper>

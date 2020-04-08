@@ -1,5 +1,5 @@
 import React from 'react'
-import {Box, Button, createStyles, Divider} from "@material-ui/core";
+import {Box, Button, createStyles} from "@material-ui/core";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import {Link} from "react-router-dom";
@@ -12,7 +12,7 @@ let classes = makeStyles((theme) =>
             width: "100%"
         },
         title: {
-            color:theme.palette.text.primary,
+            color: theme.palette.text.primary,
             textDecoration: "none"
         },
         button: {
