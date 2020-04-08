@@ -27,7 +27,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "webpack -d --watch"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,5 +44,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "ts-loader": "^6.2.2",
+    "webpack-cli": "3.3.11"
   }
 }
