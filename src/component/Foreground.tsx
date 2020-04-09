@@ -1,5 +1,5 @@
-import React from "react";
-import {Avatar, createStyles, Divider, Fab, Grid, Theme, Typography, useScrollTrigger, Zoom} from "@material-ui/core";
+import React, {useEffect, useState} from "react";
+import {createStyles, Divider, Fab, Grid, Theme, Typography, useScrollTrigger, Zoom} from "@material-ui/core";
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Box from "@material-ui/core/Box";
 import {makeStyles} from "@material-ui/core/styles";
@@ -48,18 +48,6 @@ export default function Foreground(props: { backToTopAnchor: string }) {
 
     return (
         <Box>
-            <Box style={{position: "fixed", width: "100%", background: "white", zIndex: 9999}}>
-                <Grid container>
-                    <Grid item xs={3}>
-                        <Typography variant={"body1"} component={'div'}>dengzi's blog</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <NavTabs/>
-                    </Grid>
-                    <Grid item xs={3}/>
-                </Grid>
-                <Divider  variant={"fullWidth"}/>
-            </Box>
             <BackToTop topAnchor={props.backToTopAnchor}>
                 <Fab color="secondary" aria-label="up" size={"small"}>
                     <KeyboardArrowUpIcon/>

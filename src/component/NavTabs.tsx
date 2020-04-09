@@ -1,6 +1,18 @@
-import React from "react";
-import {AppBar, createStyles, Tab, Tabs, TabsActions, TabsTypeMap, Theme, withStyles} from "@material-ui/core";
+import React, {useEffect, useState} from "react";
+import {
+    AppBar,
+    createStyles,
+    Divider,
+    Grid,
+    Tab,
+    Tabs,
+    TabsActions,
+    Theme,
+    Typography,
+    withStyles
+} from "@material-ui/core";
 import {RouteComponentProps, withRouter} from "react-router-dom";
+import Box from "@material-ui/core/Box";
 
 const WhiteAppBar = withStyles({
     root: {
@@ -53,7 +65,7 @@ const StyledTab = withStyles((theme: Theme) =>
     }),
 )((props: StyledTabProps) => <Tab {...props} />);
 
-function NavTabs(props: RouteComponentProps) {
+const NavTabs = withRouter((props: RouteComponentProps) => {
 
     const tabs = ['Articles', 'Archive', 'About', 'Friends', 'Lab'];
     const oldPathname = window.location.pathname.toLowerCase();
@@ -93,6 +105,52 @@ function NavTabs(props: RouteComponentProps) {
             ))}
         </StyledTabs>
     </WhiteAppBar>)
+});
+
+function FixedTopNavTabs(props: { scrollableNavTabsId: string }) {
+
+    const [hidden, setHidden] = useState(true);
+    let fixedBar: Element | null;
+
+    const scrollEventListener = () => {
+        if (fixedBar !== null) {
+            const top = fixedBar.getBoundingClientRect().top;
+            setHidden(top > 0)
+        }
+    };
+    useEffect(() => {
+        window.addEventListener('scroll', scrollEventListener);
+        fixedBar = window.document.querySelector(`#${props.scrollableNavTabsId}`);
+        return () => {
+            window.removeEventListener("scroll", scrollEventListener)
+        }
+    });
+    return (
+        <Box hidden={hidden}  position={"fixed"} style={{ width: "100%", background: "white", zIndex: 9999, left:"0", top:"0"}}>
+            <Grid container>
+                <Grid item xs={3}>
+                    <Typography variant={"body1"} component={'div'}>dengzi's blog</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                    <NavTabs/>
+                </Grid>
+                <Grid item xs={3}/>
+            </Grid>
+            <Divider variant={"fullWidth"}/>
+        </Box>
+    )
 }
 
-export default withRouter(NavTabs)
+function StickyNavTabs() {
+    const id = "scrollable-nav-tabs";
+    return (
+        <>
+            <FixedTopNavTabs scrollableNavTabsId={id}/>
+            <div id={id}>
+                <NavTabs/>
+            </div>
+        </>
+    )
+}
+
+export default StickyNavTabs

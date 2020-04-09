@@ -3,7 +3,7 @@ import {BrowserRouter, Switch} from "react-router-dom";
 import Box from "@material-ui/core/Box";
 import {createStyles, Grid, Theme, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import NavTabs from "./NavTabs";
+import StickyNavTabs from "./NavTabs";
 import Footer from "./Footer";
 import Foreground from "./Foreground";
 import {MainRoute, Route} from "../router/router";
@@ -77,7 +77,7 @@ export default function MainComponent() {
                             </Typography>
                         </Box>
                         <Grid item xs={12} className={classes.nav}>
-                            <NavTabs/>
+                            <StickyNavTabs/>
                         </Grid>
                     </Grid>
                 </Grid>
