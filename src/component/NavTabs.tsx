@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {
     AppBar,
+    Avatar,
     createStyles,
     Divider,
     Grid,
@@ -8,11 +9,11 @@ import {
     Tabs,
     TabsActions,
     Theme,
-    Typography,
     withStyles
 } from "@material-ui/core";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import Box from "@material-ui/core/Box";
+import {makeStyles} from "@material-ui/core/styles";
 
 const WhiteAppBar = withStyles({
     root: {
@@ -77,17 +78,20 @@ const NavTabs = withRouter((props: RouteComponentProps) => {
         }
         return 0;
     };
+    let change = false;
     const [tabIndex, setTabIndex] = React.useState(getTabsIndexOfPathName(oldPathname));
 
     props.history.listen((args: { pathname: string }) => {
         if (oldPathname === args.pathname.toLowerCase()) {
             return;
         }
+        change = true;
         setTabIndex(getTabsIndexOfPathName(args.pathname.toLowerCase()));
     });
     const handleChange = (event: React.ChangeEvent<{}>, newTabIndex: number) => {
-        if (tabIndex === newTabIndex || tabIndex === -1) return;
+        if (change) return;
         props.history.push("/" + tabs[newTabIndex].toLowerCase());
+        change = false;
         setTabIndex(newTabIndex);
     };
     const a11yProps = (value: any) => {
@@ -107,6 +111,29 @@ const NavTabs = withRouter((props: RouteComponentProps) => {
     </WhiteAppBar>)
 });
 
+const useStyle = makeStyles((theme: Theme) => createStyles({
+    fixedBar: {
+        position: "fixed",
+        width: "100%",
+        background: "white",
+        zIndex: 9999,
+        left: "0px",
+        top: "0px"
+    },
+    avatarBox: {
+        height: "40px",
+        position: "relative",
+        top: "50%",
+        marginTop: "-20px",
+        marginLeft: theme.spacing(2),
+        marginRight: theme.spacing(2),
+    },
+    avatar: {
+        height: "40px",
+        width: "40px",
+    }
+}));
+
 function FixedTopNavTabs(props: { scrollableNavTabsId: string }) {
 
     const [hidden, setHidden] = useState(true);
@@ -125,11 +152,14 @@ function FixedTopNavTabs(props: { scrollableNavTabsId: string }) {
             window.removeEventListener("scroll", scrollEventListener)
         }
     });
+    const styles = useStyle();
     return (
-        <Box hidden={hidden}  position={"fixed"} style={{ width: "100%", background: "white", zIndex: 9999, left:"0", top:"0"}}>
+        <Box hidden={hidden} className={styles.fixedBar}>
             <Grid container>
                 <Grid item xs={3}>
-                    <Typography variant={"body1"} component={'div'}>dengzi's blog</Typography>
+                    <Box className={styles.avatarBox}>
+                        <Avatar className={styles.avatar} src={"/pic.jpg"} alt={'avatar'}/>
+                    </Box>
                 </Grid>
                 <Grid item xs={6}>
                     <NavTabs/>
