@@ -1,9 +1,10 @@
 import React from "react";
 import ArticleList from "../component/ArticleList";
-import FriendsComponent from "../component/FriendsComponent";
+import Friends from "../component/Friends";
 import ArchiveComponent from "../component/ArchiveComponent";
-import AboutMeComponent from "../component/AboutMeComponent";
+import AboutMe from "../component/AboutMe";
 import ArticleComponent from "../component/ArticleComponent";
+import Lab from "../component/Lab";
 
 
 
@@ -42,19 +43,19 @@ export const MainRoute: Route[] = [
     {
         path: "/about",
         exact: true,
-        component: AboutMeComponent
+        component: AboutMe
     },
     {
         path: "/friends",
         exact: true,
-        component: FriendsComponent
+        component: Friends
     },
 
-    // {
-    //     path: "/lab",
-    //     exact: true,
-    //     component: ArticleList
-    // },
+    {
+        path: "/lab",
+        exact: true,
+        component: Lab
+    },
     // {
     //     path: "/project",
     //     exact: true,
