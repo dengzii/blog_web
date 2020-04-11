@@ -1,16 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {
-    AppBar,
-    Avatar,
-    createStyles,
-    Divider,
-    Grid,
-    Tab,
-    Tabs,
-    TabsActions,
-    Theme,
-    withStyles
-} from "@material-ui/core";
+import {AppBar, createStyles, Divider, Grid, Tab, Tabs, TabsActions, Theme, withStyles} from "@material-ui/core";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import Box from "@material-ui/core/Box";
 import {makeStyles} from "@material-ui/core/styles";
@@ -21,6 +10,29 @@ const WhiteAppBar = withStyles({
         boxShadow: "none"
     }
 })(AppBar);
+
+const useStyle = makeStyles((theme: Theme) => createStyles({
+    fixedBar: {
+        position: "fixed",
+        width: "100%",
+        background: "white",
+        zIndex: 9999,
+        left: "0px",
+        top: "0px"
+    },
+    avatarBox: {
+        height: "40px",
+        position: "relative",
+        top: "50%",
+        marginTop: "-20px",
+        marginLeft: theme.spacing(2),
+        marginRight: theme.spacing(2),
+    },
+    avatar: {
+        height: "40px",
+        width: "40px",
+    }
+}));
 
 interface StyledTabProps {
     label: string;
@@ -111,29 +123,6 @@ const NavTabs = withRouter((props: RouteComponentProps) => {
     </WhiteAppBar>)
 });
 
-const useStyle = makeStyles((theme: Theme) => createStyles({
-    fixedBar: {
-        position: "fixed",
-        width: "100%",
-        background: "white",
-        zIndex: 9999,
-        left: "0px",
-        top: "0px"
-    },
-    avatarBox: {
-        height: "40px",
-        position: "relative",
-        top: "50%",
-        marginTop: "-20px",
-        marginLeft: theme.spacing(2),
-        marginRight: theme.spacing(2),
-    },
-    avatar: {
-        height: "40px",
-        width: "40px",
-    }
-}));
-
 function FixedTopNavTabs(props: { scrollableNavTabsId: string }) {
 
     const [hidden, setHidden] = useState(true);
@@ -155,16 +144,13 @@ function FixedTopNavTabs(props: { scrollableNavTabsId: string }) {
     const styles = useStyle();
     return (
         <Box hidden={hidden} className={styles.fixedBar}>
-            <Grid container>
-                <Grid item xs={3}>
-                    <Box className={styles.avatarBox}>
-                        <Avatar className={styles.avatar} src={"/pic.jpg"} alt={'avatar'}/>
-                    </Box>
-                </Grid>
-                <Grid item xs={6}>
+            <Grid container justify={"center"} alignItems={"center"}>
+                {/*<Box className={styles.avatarBox}>*/}
+                {/*    <Avatar className={styles.avatar} src={"/pic.jpg"} alt={'avatar'}/>*/}
+                {/*</Box>*/}
+                <Grid item xs={12} md={10} lg={8} xl={6}>
                     <NavTabs/>
                 </Grid>
-                <Grid item xs={3}/>
             </Grid>
             <Divider variant={"fullWidth"}/>
         </Box>

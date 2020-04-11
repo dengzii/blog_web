@@ -5,7 +5,9 @@ import Markdown from "../highlight/Markdown";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
-        padding: theme.spacing(4)
+        padding: theme.spacing(4),
+        paddingLeft: theme.spacing(6),
+        paddingRight: theme.spacing(6)
     }
 }));
 
