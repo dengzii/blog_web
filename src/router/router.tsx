@@ -1,11 +1,11 @@
 import React from "react";
-import ArticleList from "../component/ArticleList";
-import Friends from "../component/Friends";
-import ArchiveComponent from "../component/ArchiveComponent";
-import AboutMe from "../component/AboutMe";
+import Articles from "../pages/Articles";
+import Friends from "../pages/Friends";
+import Archive from "../pages/Archive";
+import AboutMe from "../pages/AboutMe";
 import ArticleComponent from "../component/ArticleComponent";
 import Lab from "../component/Lab";
-
+import NotFound from "../pages/404";
 
 
 export interface Route {
@@ -18,17 +18,17 @@ export const MainRoute: Route[] = [
     {
         path: "/",
         exact: true,
-        component: ArticleList
+        component: Articles
     },
     {
         path: "/articles",
         exact: true,
-        component: ArticleList
+        component: Articles
     },
     {
         path: "/category/:type",
         exact: true,
-        component: ArticleList
+        component: Articles
     },
     {
         path: "/article/:id",
@@ -38,7 +38,7 @@ export const MainRoute: Route[] = [
     {
         path: "/archive",
         exact: true,
-        component: ArchiveComponent
+        component: Archive
     },
     {
         path: "/about",
@@ -56,14 +56,9 @@ export const MainRoute: Route[] = [
         exact: true,
         component: Lab
     },
-    // {
-    //     path: "/project",
-    //     exact: true,
-    //     component: ArticleList
-    // },
-    // {
-    //     path: "*",
-    //     exact: false,
-    //     component: (<h2>Not Found</h2>)
-    // },
+    {
+        path: "*",
+        exact: false,
+        component: NotFound
+    },
 ];

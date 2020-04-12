@@ -3,7 +3,7 @@ import {Box, Button, createStyles} from "@material-ui/core";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import {Link} from "react-router-dom";
-import {Article} from "./ArticleList";
+import {Article} from "../pages/Articles";
 import {makeStyles} from "@material-ui/core/styles";
 
 let classes = makeStyles((theme) =>

@@ -1,4 +1,4 @@
-import MainComponent from "./component/MainComponent";
+import Index from "./pages";
 
-const App = MainComponent;
+const App = Index;
 export default App;

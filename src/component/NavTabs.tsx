@@ -1,5 +1,16 @@
 import React, {useEffect, useState} from "react";
-import {AppBar, createStyles, Divider, Grid, Tab, Tabs, TabsActions, Theme, withStyles} from "@material-ui/core";
+import {
+    AppBar,
+    Avatar,
+    createStyles,
+    Divider,
+    Grid,
+    Tab,
+    Tabs,
+    TabsActions,
+    Theme,
+    withStyles
+} from "@material-ui/core";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import Box from "@material-ui/core/Box";
 import {makeStyles} from "@material-ui/core/styles";
@@ -22,7 +33,7 @@ const useStyle = makeStyles((theme: Theme) => createStyles({
     },
     avatarBox: {
         height: "40px",
-        position: "relative",
+        position: "absolute",
         top: "50%",
         marginTop: "-20px",
         marginLeft: theme.spacing(2),
@@ -144,10 +155,10 @@ function FixedTopNavTabs(props: { scrollableNavTabsId: string }) {
     const styles = useStyle();
     return (
         <Box hidden={hidden} className={styles.fixedBar}>
+            <Box className={styles.avatarBox}>
+                <Avatar className={styles.avatar} src={"/pic.jpg"} alt={'avatar'}/>
+            </Box>
             <Grid container justify={"center"} alignItems={"center"}>
-                {/*<Box className={styles.avatarBox}>*/}
-                {/*    <Avatar className={styles.avatar} src={"/pic.jpg"} alt={'avatar'}/>*/}
-                {/*</Box>*/}
                 <Grid item xs={12} md={10} lg={8} xl={6}>
                     <NavTabs/>
                 </Grid>

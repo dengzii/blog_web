@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-function ArchiveComponent() {
+function Archive() {
 
     const styles = useStyles();
     return (<Paper className={styles.root}>
@@ -47,7 +47,7 @@ function ArchiveComponent() {
     </Paper>)
 }
 
-export default ArchiveComponent
+export default Archive
 
 interface Archive {
     time: string;

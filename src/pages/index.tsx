@@ -3,10 +3,11 @@ import {BrowserRouter, Switch} from "react-router-dom";
 import Box from "@material-ui/core/Box";
 import {createStyles, Grid, Theme, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import StickyNavTabs from "./NavTabs";
-import Footer from "./Footer";
-import Foreground from "./Foreground";
+import StickyNavTabs from "../component/NavTabs";
+import Footer from "../component/Footer";
+import Foreground from "../component/Foreground";
 import {MainRoute, Route} from "../router/router";
+
 // function isMobile(): boolean {
 //     let mobileAgent = false;///Android|iPhone|iPod|BlackBerry/i.test(navigator.userAgent);
 //     let smallScreen = (window.innerWidth < 600);
@@ -43,7 +44,7 @@ function createRouteElement(value: Route): ReactElement {
     return React.createElement(value.component, {exact: value.exact, path: value.path, key: value.path,})
 }
 
-export default function MainComponent() {
+export default function Index() {
     const classes = useStyle();
     return (<div className="App">
         <div id={"back-to-top-anchor"}/>

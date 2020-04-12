@@ -1,8 +1,9 @@
 import React from "react";
 import {Box, Chip, createStyles, Fab, Grid, Paper, Theme} from "@material-ui/core";
-import ArticleListItem from "./ArticleListItem";
+import ArticleListItem from "../component/ArticleListItem";
 import {makeStyles} from "@material-ui/core/styles";
 import {RouteComponentProps, withRouter} from "react-router-dom";
+import {HomeApi} from "../api/HomeApi";
 
 let classes = makeStyles((theme: Theme) =>
     createStyles({
@@ -47,11 +48,12 @@ const CategoryChip = withRouter((props: RouteComponentProps)=>{
     </Box>)
 });
 
-export default function ArticleList(props: { type?: string }) {
+export default function Articles(props: { type?: string }) {
 
     const style = classes();
+    HomeApi.getArticleList();
     return (<>
-        <Paper elevation={0}>
+        <Paper elevation={1}>
             <Box className={style.main}>
                 <CategoryChip/>
                 {getArticle().map((value) =>

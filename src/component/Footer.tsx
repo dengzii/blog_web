@@ -22,8 +22,8 @@ export default function Footer() {
     const styles = style();
     const infos: string[] = [
         "Github: dengzii",
-        "Email:master@dengzii.com",
-        "Location: Shenzhen",
+        "Email: master#dengzii.com",
+        "页面被访问: 2000 次",
         "Powered By: React"];
 
     return (<Grid container={true} className={styles.main} justify={"center"}>
