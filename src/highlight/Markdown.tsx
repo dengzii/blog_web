@@ -1,4 +1,4 @@
-import React, {ElementType} from "react";
+import React, {ElementType, useState} from "react";
 import CodeBlock from "./CodeBlock";
 import HeadingBlock from "./HeadingBlock";
 import ReactMarkdown from "react-markdown";
@@ -19,6 +19,7 @@ import {
 } from "@material-ui/core";
 
 import {makeStyles} from "@material-ui/core/styles";
+import LargeImage from "../component/LargeImage";
 
 const style = makeStyles((theme: Theme) => createStyles({
     inlineCode: {
@@ -51,22 +52,25 @@ const style = makeStyles((theme: Theme) => createStyles({
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2),
         cursor: "pointer"
-    }
+    },
 }));
 
 type Comp = { children: any | JSX.Element }
 
 const ImageBlock = React.memo((props: { src: string, alt: string }) => {
     const styles = style();
+    const [open, setOpen] = useState(false);
     const handleImgClick = () => {
-
+        setOpen(!open);
     };
     return (
-        <Grid container justify={"center"} className={styles.imgBox}>
-            <Grid item onClick={handleImgClick}>
-                <img src={props.src} alt={props.alt}/>
+        <>
+            <Grid container justify={"center"} className={styles.imgBox}>
+                <Grid item onClick={handleImgClick}>
+                    <LargeImage src={props.src} open={open} onClick={handleImgClick} alt={props.alt}/>
+                </Grid>
             </Grid>
-        </Grid>
+        </>
     )
 });
 
