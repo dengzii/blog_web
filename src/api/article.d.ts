@@ -5,7 +5,7 @@ export interface Article {
     category: Category
     desc: string
     content: string
-
+    class: any
 }
 
 export interface Comment {
