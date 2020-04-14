@@ -3,8 +3,8 @@ import {Box, Button, createStyles} from "@material-ui/core";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import {Link} from "react-router-dom";
-import {Article} from "../pages/Articles";
 import {makeStyles} from "@material-ui/core/styles";
+import {Article} from "../api/model";
 
 let classes = makeStyles((theme) =>
     createStyles({
@@ -32,7 +32,7 @@ export default function ArticleListItem(props: { article: Article }) {
                 <Link to={"/article/1"} className={style.title}>{props.article.title}</Link>
             </Typography>
             <Typography color={"textSecondary"}
-                        variant={"subtitle2"}>{props.article.date.toLocaleTimeString()}</Typography>
+                        variant={"subtitle2"}>{props.article.date}</Typography>
             <Typography color="textSecondary" variant={"body1"}>{props.article.content}
                 <Link to={"/article/1"} className={style.button}>
                     <Button size={"small"} color={"primary"}>Read More</Button>

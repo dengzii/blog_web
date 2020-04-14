@@ -40,7 +40,7 @@ export class Rxios {
 
     private resolve<T>(): OperatorFunction<HttpResponse, T> {
         return map<HttpResponse, T>(response => {
-            if (response.status != 200) {
+            if (response.status !== 200) {
                 throw new Error(response.msg);
             }
             return response.data as T;

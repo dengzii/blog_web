@@ -1,6 +1,7 @@
 export interface Article {
     id: number
     title: string
+    date: number
     tags: Tag[]
     category: Category
     desc: string
