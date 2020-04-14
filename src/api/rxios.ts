@@ -1,5 +1,6 @@
 import axios, {AxiosInstance, AxiosPromise} from "axios";
-import {Observable} from 'rxjs'
+import {Observable, OperatorFunction} from 'rxjs'
+import {map} from "rxjs/operators"
 
 const instance = axios.create({
     timeout: 5000,
@@ -13,55 +14,53 @@ interface HttpResponse {
     data: any;
 }
 
+interface NetworkError extends Error {
+
+}
+
 // noinspection SpellCheckingInspection
-class rxios {
+export class Rxios {
     private _axios: AxiosInstance;
 
     constructor() {
-        this._axios = axios.create()
+        this._axios = instance
     }
 
     public post<T>(url: string, data?: any) {
-
+        this.fromAxios(() => this._axios.post(url, data))
     }
 
-    public get<T>(url: string) {
-
+    public get<T>(url: string): Observable<T> {
+        return this.fromAxios(() => this._axios.get(url)).pipe(this.resolve<T>())
     }
 
     public put<T>(url: string, data?: any) {
-
+        this.fromAxios(() => this._axios.put(url, data)).pipe(this.resolve<T>())
     }
 
-    public fromAxios() {
-        return new Observable(observer => {
-
+    private resolve<T>(): OperatorFunction<HttpResponse, T> {
+        return map<HttpResponse, T>(response => {
+            if (response.status != 200) {
+                throw new Error(response.msg);
+            }
+            return response.data as T;
         })
     }
-}
 
-export function post(path: string, param: any): Observable<HttpResponse> {
-    return fromAxios(instance.post(path, param))
-}
-
-export function get(path: string): Observable<HttpResponse> {
-    return fromAxios(instance.get(path))
-}
-
-
-function fromAxios(promise: AxiosPromise): Observable<HttpResponse> {
-    return new Observable(observer => {
-        promise.then((res) => {
-            observer.next({
-                status: res.status,
-                msg: res.statusText,
-                headers: res.headers,
-                data: res.data
-            });
-            observer.complete()
-        }).catch(error => {
-            observer.error(error);
-            observer.complete()
-        });
-    });
+    private fromAxios(fn: () => AxiosPromise): Observable<HttpResponse> {
+        return new Observable(observer => {
+            fn().then((response) => {
+                observer.next({
+                    status: response.status,
+                    msg: response.statusText,
+                    headers: response.headers,
+                    data: response.data
+                });
+                observer.complete();
+            }).catch((error) => {
+                observer.error(error);
+                observer.complete();
+            })
+        })
+    }
 }

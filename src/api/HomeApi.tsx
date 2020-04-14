@@ -1,6 +1,7 @@
 import React from "react";
-import {get} from "./rxios";
-import {Article} from "./article";
+import {Rxios} from "./rxios";
+
+const rxios = new Rxios();
 
 export class HomeApi {
 
@@ -14,13 +15,20 @@ interface Response<T> {
     data: T
 }
 
-function getClasses(){
+function getClasses() {
 
 }
 
 function getHomeArticleList() {
 
-    get("/dengzi")
-
+    rxios.get<string>("/dengzi").subscribe(
+        res => {
+            console.log(res)
+        }, error => {
+            console.log('出错啦');
+            console.log(error)
+        }, () => {
+            console.log("request complete")
+        })
 }
 
