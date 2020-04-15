@@ -21,7 +21,7 @@ import {
 import {makeStyles} from "@material-ui/core/styles";
 import LargeImage from "../component/LargeImage";
 
-const style = makeStyles((theme: Theme) => createStyles({
+const useStyles = makeStyles((theme: Theme) => createStyles({
     inlineCode: {
         background: theme.palette.info.light,
         borderRadius: "4px",
@@ -53,12 +53,15 @@ const style = makeStyles((theme: Theme) => createStyles({
         marginBottom: theme.spacing(2),
         cursor: "pointer"
     },
+    paragraph:{
+        paddingBottom:theme.spacing(1)
+    }
 }));
 
 type Comp = { children: any | JSX.Element }
 
 const ImageBlock = React.memo((props: { src: string, alt: string }) => {
-    const styles = style();
+    const styles = useStyles();
     const [open, setOpen] = useState(false);
     const handleImgClick = () => {
         setOpen(!open);
@@ -75,7 +78,8 @@ const ImageBlock = React.memo((props: { src: string, alt: string }) => {
 });
 
 const ParagraphBlock = React.memo((props: Comp) => {
-    return (<Typography variant={"body1"} component={"div"}>{props.children}</Typography>)
+    const styles = useStyles();
+    return (<Typography variant={"body1"} component={"div"} className={styles.paragraph}>{props.children}</Typography>)
 });
 
 const TableRowBlock = React.memo((props: Comp) => {
@@ -87,7 +91,7 @@ const TableCellBlock = React.memo((props: Comp) => {
 });
 
 const TableHeadBlock = React.memo((props: Comp) => {
-    const styles = style();
+    const styles = useStyles();
     return (<TableHead className={styles.tableHead}>{props.children}</TableHead>)
 });
 
@@ -96,7 +100,7 @@ const TableBodyBlock = React.memo((props: Comp) => {
 });
 
 const TableBlock = React.memo((props: Comp) => {
-    const styles = style();
+    const styles = useStyles();
     return (
         <TableContainer className={styles.tableRoot}>
             <Table>{props.children}</Table>
@@ -116,18 +120,18 @@ const ListBlock = React.memo((props: Comp) => {
 });
 
 const QuoteBlock = React.memo((props: Comp) => {
-    const styles = style();
+    const styles = useStyles();
     return (<Box className={styles.quote}>{props.children}</Box>)
 });
 
 const InlineCode = React.memo((props: Comp) => {
-    const styles = style();
+    const styles = useStyles();
     return (
         <Typography variant={"caption"} component={"span"} className={styles.inlineCode}>{props.children}</Typography>)
 });
 
 const DividerBlock = React.memo(() => {
-    const styles = style();
+    const styles = useStyles();
     return (<Divider className={styles.divider} variant={"middle"}/>)
 });
 
