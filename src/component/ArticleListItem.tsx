@@ -32,7 +32,7 @@ export default function ArticleListItem(props: { article: Article }) {
                 <Link to={"/article/1"} className={style.title}>{props.article.title}</Link>
             </Typography>
             <Typography color={"textSecondary"}
-                        variant={"subtitle2"}>{props.article.date}</Typography>
+                        variant={"subtitle2"}>{props.article.created_at}</Typography>
             <Typography color="textSecondary" variant={"body1"}>{props.article.content}
                 <Link to={"/article/1"} className={style.button}>
                     <Button size={"small"} color={"primary"}>Read More</Button>

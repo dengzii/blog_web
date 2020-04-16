@@ -6,7 +6,7 @@ import {getHomeArticleList} from "../api/Api";
 import ArticleListItem from "../component/ArticleListItem";
 import {Article} from "../api/model";
 
-let classes = makeStyles((theme: Theme) =>
+let useStyles = makeStyles((theme: Theme) =>
     createStyles({
         main: {
             paddingTop: theme.spacing(3),
@@ -26,7 +26,7 @@ let classes = makeStyles((theme: Theme) =>
 
 const CategoryChip = withRouter((props: RouteComponentProps) => {
     const category = ['Android', 'Python', 'Vue', 'React', 'TypeScript', 'Go'];
-    const style = classes();
+    const style = useStyles();
     let [currentPath, setCurrentPath] = React.useState(window.location.pathname.toLowerCase());
     const handleClick = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -42,22 +42,31 @@ const CategoryChip = withRouter((props: RouteComponentProps) => {
     </Box>)
 });
 
+const init: Article[] = [];
+
 export default function Articles(props: { type?: string }) {
 
-    const style = classes();
-    const init: Article[] = [];
+    const style = useStyles();
+    const [page, setPage] = useState(0);
     const [articles, setArticles] = useState(init);
 
-    useEffect(()=>{
-        let a= getHomeArticleList()
+    useEffect(() => {
+        const subscription = getHomeArticleList()
             .subscribe(response => {
-                console.log(response.data)
-                // setArticles(response.data)
+                setArticles(response.data);
             }, error => {
 
             });
-        return ()=>{a.unsubscribe()}
-    });
+        return () => {
+            if (!subscription.closed) {
+                subscription.unsubscribe()
+            }
+        }
+    }, []);
+
+    const handleLoadMore = () => {
+        setPage(page + 1)
+    };
 
     return (<>
         <Paper elevation={1}>
@@ -69,7 +78,7 @@ export default function Articles(props: { type?: string }) {
             </Box>
         </Paper>
         <Grid container={true} justify={"center"}>
-            <Fab variant="extended" className={style.loadMore}>Load More</Fab>
+            <Fab variant="extended" className={style.loadMore} onClick={handleLoadMore}>Load More{page}</Fab>
         </Grid>
     </>);
 }

@@ -1,10 +1,12 @@
 export interface Article {
     id: number
     title: string
-    date: number
-    tags: Tag[]
-    category: Category
-    desc: string
+    author_id: string
+    created_at: number
+    updated_at: number
+    description: string
+    likes: number
+    views: number
     content: string
     class: any
 }
