@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import {Link} from "react-router-dom";
 import {makeStyles} from "@material-ui/core/styles";
 import {Article} from "../api/model";
-import  {timeStampToDateTime} from "../utils/TimeUtils";
+import  {timeStampSecToDateTime} from "../utils/TimeUtils";
 
 let classes = makeStyles((theme) =>
     createStyles({
@@ -33,8 +33,8 @@ export default function ArticleListItem(props: { article: Article }) {
                 <Link to={"/article/1"} className={style.title}>{props.article.title}</Link>
             </Typography>
             <Typography color={"textSecondary"}
-                        variant={"subtitle2"}>{timeStampToDateTime(props.article.created_at)}</Typography>
-            <Typography color="textSecondary" variant={"body1"}>{props.article.content}
+                        variant={"subtitle2"}>{timeStampSecToDateTime(props.article.created_at)}</Typography>
+            <Typography color="textSecondary" variant={"body1"}>{props.article.description}
                 <Link to={"/article/1"} className={style.button}>
                     <Button size={"small"} color={"primary"}>Read More</Button>
                 </Link>
