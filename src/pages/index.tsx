@@ -1,12 +1,18 @@
-import React, {ReactElement} from 'react'
-import {BrowserRouter, Switch} from "react-router-dom";
+import React from 'react'
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Box from "@material-ui/core/Box";
 import {createStyles, Grid, Theme, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import StickyNavTabs from "../component/NavTabs";
 import Footer from "../component/Footer";
 import Foreground from "../component/Foreground";
-import {MainRoute, Route} from "../router/router";
+import Articles from "./Articles";
+import ArticleComponent from "../component/ArticleComponent";
+import Archive from "./Archive";
+import AboutMe from "./AboutMe";
+import Friends from "./Friends";
+import Lab from "../component/Lab";
+import NotFound from "./404";
 
 // function isMobile(): boolean {
 //     let mobileAgent = false;///Android|iPhone|iPod|BlackBerry/i.test(navigator.userAgent);
@@ -40,10 +46,6 @@ let useStyle = makeStyles((theme: Theme) =>
     })
 );
 
-function createRouteElement(value: Route): ReactElement {
-    return React.createElement(value.component, {exact: value.exact, path: value.path, key: value.path,})
-}
-
 export default function Index() {
     const classes = useStyle();
     return (<div className="App">
@@ -68,7 +70,15 @@ export default function Index() {
                 </Grid>
                 <Grid item={true} className={classes.body} xs={12} md={10} lg={8} xl={6}>
                     <Switch>
-                        {MainRoute.map((value) => createRouteElement(value))}
+                        <Route path={"/"} exact={true} children={<Articles/>}/>
+                        <Route path={"/articles"} exact={true} children={<Articles/>}/>
+                        <Route path={"/category/:type"} exact={true} children={<Articles/>}/>
+                        <Route path={"/article/:id"} exact={true} children={<ArticleComponent/>}/>
+                        <Route path={"/archive"} exact={true} children={<Archive/>}/>
+                        <Route path={"/about"} exact={true} children={<AboutMe/>}/>
+                        <Route path={"/friends"} exact={true} children={<Friends/>}/>
+                        <Route path={"/lab"} exact={true} children={<Lab/>}/>
+                        <Route path={"*"} exact={false} children={<NotFound/>}/>
                     </Switch>
                 </Grid>
                 <Grid item={true} xs={12}>

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Box, Chip, createStyles, Fab, Grid, Paper, Theme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import {RouteComponentProps, withRouter} from "react-router-dom";
+import {RouteComponentProps, useParams, withRouter} from "react-router-dom";
 import {getHomeArticleList} from "../api/Api";
 import ArticleListItem from "../component/ArticleListItem";
 import {Article} from "../api/model";
@@ -44,16 +44,25 @@ const CategoryChip = withRouter((props: RouteComponentProps) => {
 
 const init: Article[] = [];
 
-export default function Articles(props: { type?: string }) {
+export default function Articles() {
 
+    const params: { type?: string | undefined } = useParams();
     const style = useStyles();
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState((new Date()).valueOf());
     const [articles, setArticles] = useState(init);
+    const [hasMore, setHasMore] = useState(true);
 
+    console.log(params.type);
     useEffect(() => {
-        const subscription = getHomeArticleList()
+        const subscription = getHomeArticleList(page)
             .subscribe(response => {
-                setArticles(response.data);
+                const data = response.data;
+                const lastArticle = data[data.length - 1];
+                if (lastArticle === undefined || lastArticle.updated_at === page) {
+                    setHasMore(false)
+                } else {
+                    setArticles(articles.concat(data));
+                }
             }, error => {
 
             });
@@ -62,10 +71,12 @@ export default function Articles(props: { type?: string }) {
                 subscription.unsubscribe()
             }
         }
-    }, []);
+    }, [page]);
 
     const handleLoadMore = () => {
-        setPage(page + 1)
+        if (articles.length > 0) {
+            setPage(articles[articles.length - 1].updated_at)
+        }
     };
 
     return (<>
@@ -78,7 +89,8 @@ export default function Articles(props: { type?: string }) {
             </Box>
         </Paper>
         <Grid container={true} justify={"center"}>
-            <Fab variant="extended" className={style.loadMore} onClick={handleLoadMore}>Load More{page}</Fab>
+            <Fab variant="extended" className={style.loadMore}
+                 onClick={handleLoadMore}>{hasMore ? "查看更多" : "没有更多了"}</Fab>
         </Grid>
     </>);
 }

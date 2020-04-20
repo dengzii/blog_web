@@ -11,8 +11,8 @@ interface Response<T> {
     data: T
 }
 
-export function getHomeArticleList(): Observable<Response<Article[]>> {
+export function getHomeArticleList(from: number): Observable<Response<Article[]>> {
 
-    return rxios.get<Response<Article[]>>("/dengzi")
+    return rxios.get<Response<Article[]>>("/dengzi?from=" + from)
 }
 
