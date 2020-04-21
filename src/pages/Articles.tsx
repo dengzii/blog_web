@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Box, Chip, createStyles, Fab, Grid, Paper, Theme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {RouteComponentProps, useParams, withRouter} from "react-router-dom";
-import {getHomeArticleList} from "../api/Api";
+import {getArticleList} from "../api/Api";
 import ArticleListItem from "../component/ArticleListItem";
 import {Article} from "../api/model";
 
@@ -28,6 +28,7 @@ const CategoryChip = withRouter((props: RouteComponentProps) => {
     const category = ['Android', 'Python', 'Vue', 'React', 'TypeScript', 'Go'];
     const style = useStyles();
     let [currentPath, setCurrentPath] = React.useState(window.location.pathname.toLowerCase());
+
     const handleClick = (e: React.MouseEvent) => {
         e.preventDefault();
         let cat = (e.currentTarget.textContent as string).toLowerCase();
@@ -52,9 +53,8 @@ export default function Articles() {
     const [articles, setArticles] = useState(init);
     const [hasMore, setHasMore] = useState(true);
 
-    console.log(params.type);
     useEffect(() => {
-        const subscription = getHomeArticleList(page)
+        const subscription = getArticleList(page, params.type === undefined ? "" : params.type)
             .subscribe(response => {
                 const data = response.data;
                 const lastArticle = data[data.length - 1];
@@ -84,7 +84,7 @@ export default function Articles() {
             <Box className={style.main}>
                 <CategoryChip/>
                 {articles.map((value: Article) =>
-                    (<ArticleListItem key={value.title} article={value}/>)
+                    (<ArticleListItem key={value.updated_at} article={value}/>)
                 )}
             </Box>
         </Paper>
