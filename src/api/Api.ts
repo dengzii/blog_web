@@ -1,6 +1,6 @@
 import {Rxios} from "./rxios";
 import {Observable} from "rxjs";
-import {Article} from "./model";
+import {Article, Category} from "./model";
 
 
 const rxios = new Rxios();
@@ -14,5 +14,10 @@ interface Response<T> {
 export function getArticleList(last: number, category: string): Observable<Response<Article[]>> {
 
     return rxios.get<Response<Article[]>>(`/dengzi?last=${last}&category=${category}`)
+}
+
+export function getCategories(): Observable<Response<Category[]>> {
+
+    return rxios.get<Response<Category[]>>(`/dengzi/category`)
 }
 

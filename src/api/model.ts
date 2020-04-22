@@ -29,5 +29,6 @@ export interface Tag {
 
 export interface Category {
     name: string
+    article_count: number
     id: number
 }

@@ -1,13 +1,20 @@
 import React, {useEffect, useState} from "react";
-import {Box, Chip, createStyles, Fab, Grid, Paper, Theme} from "@material-ui/core";
+import {Box, Button, Chip, createStyles, Grid, Paper, Theme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import {RouteComponentProps, useParams, withRouter} from "react-router-dom";
-import {getArticleList} from "../api/Api";
+import {RouteComponentProps, withRouter} from "react-router-dom";
+import {getArticleList, getCategories} from "../api/Api";
 import ArticleListItem from "../component/ArticleListItem";
-import {Article} from "../api/model";
+import {Article, Category} from "../api/model";
 
 let useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        paper: {
+            marginBottom: theme.spacing(4)
+        },
+        article: {
+            marginLeft: theme.spacing(2),
+            marginRight: theme.spacing(2)
+        },
         main: {
             paddingTop: theme.spacing(3),
             paddingLeft: theme.spacing(4),
@@ -24,41 +31,75 @@ let useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const CategoryChip = withRouter((props: RouteComponentProps) => {
-    const category = ['Android', 'Python', 'Vue', 'React', 'TypeScript', 'Go'];
-    const style = useStyles();
-    let [currentPath, setCurrentPath] = React.useState(window.location.pathname.toLowerCase());
 
-    const handleClick = (e: React.MouseEvent) => {
-        e.preventDefault();
-        let cat = (e.currentTarget.textContent as string).toLowerCase();
-        setCurrentPath(cat);
-        props.history.push("/category/" + cat);
+const emptyArticles: Article[] = [];
+const emptyCategory: Category[] = [];
+
+function CategoryChip(props: { selected: string, categories: Category[], onCategoryClick: (c: Category) => void }) {
+
+    const style = useStyles();
+    return (<>
+            {props.categories.map((value) =>
+                <Chip key={value.name} className={style.chip} label={value.name}
+                      onClick={(event => {
+                          props.onCategoryClick(value);
+                      })}
+                      color={(value.name === props.selected) ? "primary" : "default"}/>
+            )
+            }
+        </>
+    )
+}
+
+function ArticleWrap(props: RouteComponentProps) {
+
+    const [categories, setCategories] = useState(emptyCategory);
+    const [category, setCategory] = useState("");
+
+    useEffect(() => {
+        const categorySubscription = getCategories()
+            .subscribe(response => {
+                setCategories(response.data)
+            }, error => {
+
+            });
+        return () => {
+            if (!categorySubscription.closed) {
+                categorySubscription.unsubscribe()
+            }
+        }
+    }, []);
+
+    const handleCategoryClick = (c: Category) => {
+        props.history.push(`/category/${c.name.toLowerCase()}`);
+        setCategory(c.name);
     };
-    return (<Box>
-        {(category.map((value) =>
-            <Chip key={value} className={style.chip} label={value} onClick={handleClick}
-                  color={(currentPath.endsWith(value.toLowerCase())) ? "primary" : "default"}/>
-        ))}
-    </Box>)
-});
 
-const init: Article[] = [];
+    const styles = useStyles();
+    return (
+        <>
+            <Paper elevation={1} className={styles.paper}>
+                <Box className={styles.main}>
+                    <CategoryChip selected={category} categories={categories} onCategoryClick={handleCategoryClick}/>
+                    <ArticlesList category={category}/>
+                </Box>
+            </Paper>
+        </>
+    )
+}
 
-export default function Articles() {
+function ArticlesList(props: {category: string}) {
 
-    const params: { type?: string | undefined } = useParams();
-    const style = useStyles();
-    const [page, setPage] = useState((new Date()).valueOf());
-    const [articles, setArticles] = useState(init);
+    const [last, setLast] = useState((new Date()).valueOf());
+    const [articles, setArticles] = useState(emptyArticles);
     const [hasMore, setHasMore] = useState(true);
 
     useEffect(() => {
-        const subscription = getArticleList(page, params.type === undefined ? "" : params.type)
+        const subscription = getArticleList(last, props.category)
             .subscribe(response => {
                 const data = response.data;
                 const lastArticle = data[data.length - 1];
-                if (lastArticle === undefined || lastArticle.updated_at === page) {
+                if (lastArticle === undefined || lastArticle.updated_at === last) {
                     setHasMore(false)
                 } else {
                     setArticles(articles.concat(data));
@@ -71,26 +112,24 @@ export default function Articles() {
                 subscription.unsubscribe()
             }
         }
-    }, [page]);
+    }, [last]);
 
     const handleLoadMore = () => {
         if (articles.length > 0) {
-            setPage(articles[articles.length - 1].updated_at)
+            setLast(articles[articles.length - 1].updated_at)
         }
     };
 
+    const style = useStyles();
     return (<>
-        <Paper elevation={1}>
-            <Box className={style.main}>
-                <CategoryChip/>
-                {articles.map((value: Article) =>
-                    (<ArticleListItem key={value.updated_at} article={value}/>)
-                )}
-            </Box>
-        </Paper>
+        {articles.map((value: Article) =>
+            (<ArticleListItem key={value.updated_at} article={value}/>)
+        )}
         <Grid container={true} justify={"center"}>
-            <Fab variant="extended" className={style.loadMore}
-                 onClick={handleLoadMore}>{hasMore ? "查看更多" : "没有更多了"}</Fab>
+            <Button className={style.loadMore} variant={"text"}
+                    onClick={handleLoadMore}>{hasMore ? "查看更多" : "没有更多了"}</Button>
         </Grid>
     </>);
 }
+
+export default withRouter(ArticleWrap)
