@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Box, Button, Chip, createStyles, Grid, Paper, Theme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import {RouteComponentProps, withRouter} from "react-router-dom";
+import {RouteComponentProps, useParams, withRouter} from "react-router-dom";
 import {getArticleList, getCategories} from "../api/Api";
 import ArticleListItem from "../component/ArticleListItem";
 import {Article, Category} from "../api/model";
+import {timeStampSecToDateTime} from "../utils/TimeUtils";
 
 let useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -32,9 +33,6 @@ let useStyles = makeStyles((theme: Theme) =>
 );
 
 
-const emptyArticles: Article[] = [];
-const emptyCategory: Category[] = [];
-
 function CategoryChip(props: { selected: string, categories: Category[], onCategoryClick: (c: Category) => void }) {
 
     const style = useStyles();
@@ -44,17 +42,18 @@ function CategoryChip(props: { selected: string, categories: Category[], onCateg
                       onClick={(event => {
                           props.onCategoryClick(value);
                       })}
-                      color={(value.name === props.selected) ? "primary" : "default"}/>
+                      color={(value.name.toLowerCase() === props.selected.toLowerCase()) ? "primary" : "default"}/>
             )
             }
         </>
     )
 }
 
-function ArticleWrap(props: RouteComponentProps) {
+function Articles(props: RouteComponentProps) {
 
+    const params: { type?: string | undefined } = useParams();
     const [categories, setCategories] = useState(emptyCategory);
-    const [category, setCategory] = useState("");
+    const [category, setCategory] = useState(params.type === undefined ? "" : params.type);
 
     useEffect(() => {
         const categorySubscription = getCategories()
@@ -88,11 +87,20 @@ function ArticleWrap(props: RouteComponentProps) {
     )
 }
 
-function ArticlesList(props: {category: string}) {
+const emptyArticles: Article[] = [];
+const emptyCategory: Category[] = [];
+const emptyLast: number = (new Date()).valueOf() / 1000;
 
-    const [last, setLast] = useState((new Date()).valueOf());
+function ArticlesList(props: { category: string }) {
+
+    const [last, setLast] = useState(emptyLast);
     const [articles, setArticles] = useState(emptyArticles);
     const [hasMore, setHasMore] = useState(true);
+
+    useEffect(() => {
+        setLast(emptyLast);
+        setArticles(emptyArticles);
+    }, [props.category]);
 
     useEffect(() => {
         const subscription = getArticleList(last, props.category)
@@ -112,7 +120,7 @@ function ArticlesList(props: {category: string}) {
                 subscription.unsubscribe()
             }
         }
-    }, [last]);
+    }, [last, props.category]);
 
     const handleLoadMore = () => {
         if (articles.length > 0) {
@@ -127,9 +135,9 @@ function ArticlesList(props: {category: string}) {
         )}
         <Grid container={true} justify={"center"}>
             <Button className={style.loadMore} variant={"text"}
-                    onClick={handleLoadMore}>{hasMore ? "查看更多" : "没有更多了"}</Button>
+                    onClick={handleLoadMore}>{hasMore ? `查看 ${timeStampSecToDateTime(last)} 之前的文章` : "没有更多了"}</Button>
         </Grid>
     </>);
 }
 
-export default withRouter(ArticleWrap)
+export default withRouter(Articles)

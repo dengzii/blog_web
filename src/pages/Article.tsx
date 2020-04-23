@@ -26,18 +26,18 @@ const style = makeStyles((theme: Theme) => createStyles({
         padding: theme.spacing(1)
     },
     catalog: {
-        marginTop:theme.spacing(1),
+        marginTop: theme.spacing(1),
         padding: theme.spacing(1)
     }
 }));
 
-export default function ArticleComponent() {
+export default function Article() {
 
     const infos = ['Classify: Java', 'Author: dengzi', 'Likes/View:  44/120', 'Push Time: 2020/04/04'];
     const styles = style();
     return (
         <Grid container justify={"center"} spacing={1}>
-            <Grid item={true} className={styles.root} xs={12} md={9} >
+            <Grid item={true} className={styles.root} xs={12} md={9}>
                 <Paper elevation={0}>
                     <Box className={styles.titleBox} hidden>
                         <Typography variant={"h4"} component={"span"} gutterBottom align={"justify"}>
@@ -56,7 +56,7 @@ export default function ArticleComponent() {
 
                 </Paper>
             </Grid>
-            <Grid item={true} xs={12} md={3} >
+            <Grid item={true} xs={12} md={3}>
                 <Paper elevation={0} className={styles.sideCard}>
                     {infos.map((value) => (<ListItem key={value}>{value}</ListItem>))}
                 </Paper>

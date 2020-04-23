@@ -24,17 +24,18 @@ let classes = makeStyles((theme) =>
 
 export default function ArticleListItem(props: { article: Article }) {
 
+    const article = props.article;
     const style = classes();
 
     return (<Box className={style.main}>
 
         <CardContent>
             <Typography color="textPrimary" gutterBottom variant={"h6"}>
-                <Link to={"/article/1"} className={style.title}>{props.article.title}</Link>
+                <Link to={`/article/${article.id}`} className={style.title}>{article.title}</Link>
             </Typography>
             <Typography color={"textSecondary"}
-                        variant={"subtitle2"}>{timeStampSecToDateTime(props.article.created_at)}</Typography>
-            <Typography color="textSecondary" variant={"body1"}>{props.article.description}
+                        variant={"subtitle2"}>{timeStampSecToDateTime(article.created_at)}</Typography>
+            <Typography color="textSecondary" variant={"body1"}>{article.description}
                 <Link to={"/article/1"} className={style.button}>
                     <Button size={"small"} color={"primary"}>Read More</Button>
                 </Link>
