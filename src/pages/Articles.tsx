@@ -110,7 +110,7 @@ function ArticlesList(props: { category: string }) {
                 if (lastArticle === undefined || lastArticle.updated_at === last) {
                     setHasMore(false)
                 } else {
-                    setArticles(articles.concat(data));
+                    setArticles(articles => articles.concat(data));
                 }
             }, error => {
 

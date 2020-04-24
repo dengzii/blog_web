@@ -1,6 +1,6 @@
 import {Rxios} from "./rxios";
 import {Observable} from "rxjs";
-import {Article, Category} from "./model";
+import {Archive, Article, Category} from "./model";
 
 
 const rxios = new Rxios();
@@ -21,3 +21,6 @@ export function getCategories(): Observable<Response<Category[]>> {
     return rxios.get<Response<Category[]>>(`/dengzi/category`)
 }
 
+export function getArchives():Observable<Response<Archive[]>>{
+    return rxios.get<Response<Archive[]>>(`/dengzi/archive`)
+}

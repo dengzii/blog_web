@@ -1,5 +1,5 @@
 export interface Article {
-    id: number
+    cid: number
     title: string
     author_name: string
     created_at: number
@@ -9,6 +9,11 @@ export interface Article {
     views: number
     content: string
     class: any
+}
+
+export interface Archive {
+    time: number
+    articles: Article[]
 }
 
 export interface Comment {

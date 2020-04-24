@@ -8,7 +8,7 @@ import Footer from "../component/Footer";
 import Foreground from "../component/Foreground";
 import Articles from "./Articles";
 import Article from "./Article";
-import Archive from "./Archive";
+import Archives from "./Archive";
 import AboutMe from "./AboutMe";
 import Friends from "./Friends";
 import Lab from "../component/Lab";
@@ -74,7 +74,7 @@ export default function Index() {
                         <Route path={"/articles"} exact={true} children={<Articles/>}/>
                         <Route path={"/category/:type"} exact={true} children={<Articles/>}/>
                         <Route path={"/article/:id"} exact={true} children={<Article/>}/>
-                        <Route path={"/archive"} exact={true} children={<Archive/>}/>
+                        <Route path={"/archive"} exact={true} children={<Archives/>}/>
                         <Route path={"/about"} exact={true} children={<AboutMe/>}/>
                         <Route path={"/friends"} exact={true} children={<Friends/>}/>
                         <Route path={"/lab"} exact={true} children={<Lab/>}/>
