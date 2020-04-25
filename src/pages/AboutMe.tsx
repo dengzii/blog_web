@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {createStyles, Paper, Theme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import Markdown from "../highlight/Markdown";
+import {getAbout} from "../api/Api";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
@@ -46,10 +47,24 @@ function AboutMe() {
 - 2017-06: 上线第一个版本
 - 2017-04: 开始使用 django 搭建
 `;
+    const [about, setAbout] = useState("");
+    useEffect(() => {
+        const subscription = getAbout()
+            .subscribe(response => {
+                setAbout(response.data.content)
+            }, error => {
+
+            });
+        return () => {
+            if (!subscription.closed) {
+                subscription.unsubscribe()
+            }
+        }
+    });
 
     return (
         <Paper className={style.root}>
-            <Markdown markdown={aboutMe}/>
+            <Markdown markdown={about}/>
         </Paper>
     )
 }

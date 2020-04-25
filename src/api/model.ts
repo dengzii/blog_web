@@ -12,8 +12,14 @@ export interface Article {
 }
 
 export interface Archive {
-    time: number
-    articles: Article[]
+    created_at: number
+    title: string
+    cid: number
+}
+
+export interface About {
+    content: string
+    updated_at: number
 }
 
 export interface Comment {

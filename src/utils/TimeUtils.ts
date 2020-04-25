@@ -6,3 +6,8 @@ export function timeStampSecToDateTime(timestamp: number) {
     const time = date.toTimeString().substr(0, 8);
     return y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0" + d : d) + " " + time;
 }
+
+export function getYearFromTimeStampSec(timestamp: number) {
+    const date = new Date(timestamp * 1000);
+    return date.getFullYear();
+}
