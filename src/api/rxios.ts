@@ -26,16 +26,16 @@ export class Rxios {
         this._axios = instance
     }
 
-    public post<T>(url: string, data?: any) {
-        this.fromAxios(() => this._axios.post(url, data))
+    public post<T>(url: string, data?: any): Observable<T> {
+        return this.fromAxios(() => this._axios.post(url, data)).pipe(this.resolve<T>())
+    }
+
+    public put<T>(url: string, data?: any): Observable<T> {
+        return this.fromAxios(() => this._axios.put(url, data)).pipe(this.resolve<T>())
     }
 
     public get<T>(url: string): Observable<T> {
         return this.fromAxios(() => this._axios.get(url)).pipe(this.resolve<T>())
-    }
-
-    public put<T>(url: string, data?: any) {
-        this.fromAxios(() => this._axios.put(url, data)).pipe(this.resolve<T>())
     }
 
     private resolve<T>(): OperatorFunction<HttpResponse, T> {

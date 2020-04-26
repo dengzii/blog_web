@@ -17,6 +17,13 @@ export interface Archive {
     cid: number
 }
 
+export interface Friend {
+    name: string
+    desc: string
+    url: string
+    avatar: string
+}
+
 export interface About {
     content: string
     updated_at: number
