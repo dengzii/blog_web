@@ -7,12 +7,12 @@ import StickyNavTabs from "../component/NavTabs";
 import Footer from "../component/Footer";
 import Foreground from "../component/Foreground";
 import Articles from "./Articles";
-import Article from "./Article";
 import Archives from "./Archive";
 import AboutMe from "./AboutMe";
 import Friends from "./Friends";
 import Lab from "../component/Lab";
 import NotFound from "./404";
+import ArticleTab from "./ArticleTab";
 
 // function isMobile(): boolean {
 //     let mobileAgent = false;///Android|iPhone|iPod|BlackBerry/i.test(navigator.userAgent);
@@ -73,7 +73,7 @@ export default function Index() {
                         <Route path={"/"} exact={true} children={<Articles/>}/>
                         <Route path={"/articles"} exact={true} children={<Articles/>}/>
                         <Route path={"/category/:type"} exact={true} children={<Articles/>}/>
-                        <Route path={"/article/:id"} exact={true} children={<Article/>}/>
+                        <Route path={"/article/:id"} exact={true} children={<ArticleTab/>}/>
                         <Route path={"/archive"} exact={true} children={<Archives/>}/>
                         <Route path={"/about"} exact={true} children={<AboutMe/>}/>
                         <Route path={"/friends"} exact={true} children={<Friends/>}/>

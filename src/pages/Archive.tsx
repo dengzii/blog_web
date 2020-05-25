@@ -74,7 +74,7 @@ function Archives() {
                 {value.archive.map((article) => (
                     <Typography key={article.created_at} className={styles.articleItem} variant={"body1"}
                                 component={"p"}>{timeStampSecToDateTime(article.created_at)} <Link
-                        to={"/article/" + article.cid} className={styles.link}>{article.title}</Link></Typography>
+                        to={"/article/" + article.id} className={styles.link}>{article.title}</Link></Typography>
                 ))}
             </>
         ))}

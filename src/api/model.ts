@@ -1,5 +1,5 @@
 export interface Article {
-    cid: number
+    id: number
     title: string
     author_name: string
     created_at: number
@@ -8,13 +8,15 @@ export interface Article {
     likes: number
     views: number
     content: string
-    class: any
+    category_name: string
+    tag: Tag
+    category: Category
 }
 
 export interface Archive {
     created_at: number
     title: string
-    cid: number
+    id: number
 }
 
 export interface Friend {
@@ -42,11 +44,9 @@ export interface Comment {
 export interface Tag {
     name: string
     id: number
-    style: number
 }
 
 export interface Category {
     name: string
-    article_count: number
     id: number
 }

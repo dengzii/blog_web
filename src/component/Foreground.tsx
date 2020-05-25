@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from "react";
-import {createStyles, Divider, Fab, Grid, Theme, Typography, useScrollTrigger, Zoom} from "@material-ui/core";
+import React from "react";
+import {createStyles, Fab, Theme, useScrollTrigger, Zoom} from "@material-ui/core";
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Box from "@material-ui/core/Box";
 import {makeStyles} from "@material-ui/core/styles";
-import NavTabs from "./NavTabs";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     scrollTop: {

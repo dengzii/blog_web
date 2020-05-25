@@ -11,6 +11,10 @@ interface Response<T> {
     data: T
 }
 
+export function getArticleDetail(id: number): Observable<Response<Article>> {
+    return rxios.get<Response<Article>>(`/dengzi/article/${id}`)
+}
+
 export function getArticleList(last: number, category: string): Observable<Response<Article[]>> {
 
     return rxios.get<Response<Article[]>>(`/dengzi?last=${last}&category=${category}`)

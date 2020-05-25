@@ -31,7 +31,7 @@ export default function ArticleListItem(props: { article: Article }) {
 
         <CardContent>
             <Typography color="textPrimary" gutterBottom variant={"h6"}>
-                <Link to={`/article/${article.cid}`} className={style.title}>{article.title}</Link>
+                <Link to={`/article/${article.id}`} className={style.title}>{article.title}</Link>
             </Typography>
             <Typography color={"textSecondary"}
                         variant={"subtitle2"}>{timeStampSecToDateTime(article.created_at)}</Typography>

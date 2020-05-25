@@ -140,18 +140,20 @@ function FixedTopNavTabs(props: { scrollableNavTabsId: string }) {
     let fixedBar: Element | null;
 
     const scrollEventListener = () => {
-        if (fixedBar !== null) {
+        fixedBar = window.document.querySelector(`#${props.scrollableNavTabsId}`);
+        if (fixedBar !== undefined && fixedBar !== null) {
             const top = fixedBar.getBoundingClientRect().top;
             setHidden(top > 0)
         }
     };
     useEffect(() => {
         window.addEventListener('scroll', scrollEventListener);
-        fixedBar = window.document.querySelector(`#${props.scrollableNavTabsId}`);
         return () => {
             window.removeEventListener("scroll", scrollEventListener)
         }
-    });
+        // eslint-disable-next-line
+    }, []);
+    
     const styles = useStyle();
     return (
         <Box hidden={hidden} className={styles.fixedBar}>

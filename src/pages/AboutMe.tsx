@@ -16,6 +16,7 @@ function AboutMe() {
 
     const style = useStyles();
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const aboutMe = `
 # 关于我
 

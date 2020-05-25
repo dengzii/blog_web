@@ -1,5 +1,5 @@
 import React from "react";
-import {Backdrop, BackdropClassKey, Button, createStyles, FadeProps, StandardProps, Theme} from "@material-ui/core";
+import {Backdrop, BackdropClassKey, createStyles, FadeProps, StandardProps, Theme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 
 interface LargeImageProps extends StandardProps<React.HTMLAttributes<HTMLDivElement> & Partial<FadeProps>,

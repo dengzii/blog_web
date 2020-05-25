@@ -1,10 +1,13 @@
-import React from "react";
-import {Box, createStyles, Divider, Grid, IconButton, ListItem, Paper, Theme, Typography} from "@material-ui/core";
+import React, {useEffect, useState} from "react";
+import {Box, createStyles, Divider, Grid, ListItem, Paper, Theme, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import CloseIcon from '@material-ui/icons/Close';
 import Markdown from "../highlight/Markdown";
+import {getArticleDetail} from "../api/Api";
+import {Article} from "../api/model";
+import {timeStampSecToDate} from "../utils/TimeUtils";
+import {RouteComponentProps, withRouter} from "react-router";
 
-const style = makeStyles((theme: Theme) => createStyles({
+const useStyle = makeStyles((theme: Theme) => createStyles({
     root: {
         marginBottom: theme.spacing(4)
     },
@@ -31,43 +34,73 @@ const style = makeStyles((theme: Theme) => createStyles({
     }
 }));
 
-export default function Article() {
+let emptyArticle: Article;
 
-    const infos = ['Classify: Java', 'Author: dengzi', 'Likes/View:  44/120', 'Push Time: 2020/04/04'];
-    const styles = style();
-    return (
-        <Grid container justify={"center"} spacing={1}>
-            <Grid item={true} className={styles.root} xs={12} md={9}>
-                <Paper elevation={0}>
-                    <Box className={styles.titleBox} hidden>
-                        <Typography variant={"h4"} component={"span"} gutterBottom align={"justify"}>
-                            路由匹配原理
-                        </Typography>
-                        <Typography variant={"h4"} component={"span"} gutterBottom align={"right"}>
-                            <IconButton aria-label="delete" size="medium">
-                                <CloseIcon fontSize="inherit"/>
-                            </IconButton>
-                        </Typography>
-                    </Box>
-                    <Divider light={true} variant="middle"/>
-                    <Box className={styles.articleBody}>
-                        <Markdown markdown={getMarkdown()}/>
-                    </Box>
+const ArticleTab = withRouter((props: RouteComponentProps) => {
 
-                </Paper>
-            </Grid>
-            <Grid item={true} xs={12} md={3}>
-                <Paper elevation={0} className={styles.sideCard}>
-                    {infos.map((value) => (<ListItem key={value}>{value}</ListItem>))}
-                </Paper>
-                <Paper elevation={0} className={styles.catalog}>
-                    {infos.map((value) => (<ListItem key={value}>{value}</ListItem>))}
-                </Paper>
-            </Grid>
-        </Grid>
-    )
-}
+        const [article, setArticle] = useState(emptyArticle);
+        useEffect(() => {
+            let param = props.match.params as { id: number };
+            const subscription = getArticleDetail(param.id)
+                .subscribe(response => {
+                    setArticle(response.data)
+                }, error => {
+                    console.log(error)
+                });
+            return () => {
+                if (!subscription.closed) {
+                    subscription.unsubscribe()
+                }
+            }
+            // eslint-disable-next-line
+        }, []);
 
+        const styles = useStyle();
+
+        if (article === undefined || article === null) {
+            return (<div/>)
+        } else {
+            console.log(article);
+            const infos = [
+                `分类 : ${article.category_name}`,
+                `作者 : ${article.author_name}`,
+                `喜欢 / 浏览 : ${article.likes} / ${article.views}`,
+                `发布时间 : ${timeStampSecToDate(article.created_at)}`,
+                `字数 : ${article.content.length}`
+            ];
+            return (
+                <Grid container justify={"center"} spacing={1}>
+                    <Grid item={true} className={styles.root} xs={12} md={9}>
+                        <Paper elevation={0}>
+                            <Box className={styles.titleBox}>
+                                <Typography variant={"h6"} component={"span"} gutterBottom align={"justify"}>
+                                    {article.title}
+                                </Typography>
+                            </Box>
+                            <Divider light={true} variant="middle"/>
+                            <br/>
+                            <Box className={styles.articleBody}>
+                                <Markdown markdown={article.content}/>
+                            </Box>
+                        </Paper>
+                    </Grid>
+                    <Grid item={true} xs={12} md={3}>
+                        <Paper elevation={0} className={styles.sideCard}>
+                            {infos.map((value) => (<ListItem key={value}>{value}</ListItem>))}
+                        </Paper>
+                        <Paper elevation={0} className={styles.catalog}>
+                            <ListItem>目录</ListItem>
+                        </Paper>
+                    </Grid>
+                </Grid>
+            )
+        }
+    }
+);
+
+export default ArticleTab
+
+// eslint-disable-next-line
 function getMarkdown(): string {
     return `
 # 欢迎使用 Markdown在线编辑器 MdEditor

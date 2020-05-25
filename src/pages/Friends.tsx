@@ -49,13 +49,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const emptyFriend: Friend[] = [];
+const emptySnackBar = {display: false, toast: ""};
 
 export default function Friends() {
 
     const styles = useStyles();
     const [friends, setFriends] = useState(emptyFriend);
-    const [displaySnackbar, setDisplaySnackbar] = useState(false);
-    const [field, setField] = useState({name: "", url: "", avatar: "", contact: "", desc: ""});
+    const [snackbar, setSnackbar] = useState(emptySnackBar);
+    const field = {name: "", url: "", avatar: "", contact: "", desc: ""};
 
     useEffect(() => {
         const subscription = getFriends()
@@ -71,16 +72,20 @@ export default function Friends() {
         }
     }, []);
 
-    const handleItemClick = () => {
-
+    const handleItemClick = (url: string) => {
+        window.open(url)
     };
     const handleSubmitClick = () => {
+        if (field.name.length === 0 || field.url.length === 0) {
+            setSnackbar({display: true, toast: "称呼和主页是必填的哦."});
+            return
+        }
         putFriends(field).subscribe(
-            response => {
-                setDisplaySnackbar(true);
+            () => {
+                setSnackbar({display: true, toast: `你好 ${field.name}, 很快我们就能成为朋友啦!`});
             },
             error => {
-
+                setSnackbar({display: true, toast: `交友失败, ${error}.`});
             }
         );
     };
@@ -93,7 +98,9 @@ export default function Friends() {
             <br/><br/>
             <Grid container spacing={4}>
                 {friends.map((value) => (
-                    <Grid item xs={12} sm={6} lg={4} md={4} className={styles.item} onClick={handleItemClick}>
+                    <Grid item xs={12} sm={6} lg={4} md={4} className={styles.item} key={value.url} onClick={e => {
+                        handleItemClick(value.url)
+                    }}>
                         <Box style={{display: "flex"}}>
                             <Avatar variant={"circle"} src={value.avatar} className={styles.avatar}
                                     style={{margin: "0px"}}>
@@ -128,12 +135,12 @@ export default function Friends() {
                     }}/><br/><br/>
                     <Button variant="contained" color="primary" disableElevation size={"medium"}
                             onClick={handleSubmitClick}>提 交</Button>
-                    <Snackbar open={displaySnackbar}
+                    <Snackbar open={snackbar.display}
                               autoHideDuration={3000}
-                              message={`你好 ${field.name}, 很快我们就能成为朋友啦!`}
+                              message={snackbar.toast}
                               anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
                               onClose={() => {
-                                  setDisplaySnackbar(false)
+                                  setSnackbar(emptySnackBar)
                               }}/>
                 </Grid>
             </Grid>
