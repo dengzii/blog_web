@@ -16,7 +16,7 @@ export interface Article {
 export interface Archive {
     created_at: number
     title: string
-    id: number
+    article_id: number
 }
 
 export interface Friend {

@@ -108,6 +108,7 @@ export default function Friends() {
                             </Avatar>
                             <Box className={styles.nameAndBio}>
                                 <Typography variant={"subtitle1"}>{value.name}</Typography>
+                                <Typography variant={"subtitle1"} color={"textSecondary"}>{value.url}</Typography>
                                 <Typography variant={"subtitle1"} color={"textSecondary"}>{value.desc}</Typography>
                             </Box>
                         </Box>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Box from "@material-ui/core/Box";
 import {createStyles, Grid, Theme, Typography} from "@material-ui/core";
@@ -48,6 +48,11 @@ let useStyle = makeStyles((theme: Theme) =>
 
 export default function Index() {
     const classes = useStyle();
+
+    useEffect(() => {
+
+    }, []);
+
     return (<div className="App">
         <div id={"back-to-top-anchor"}/>
         <BrowserRouter>
