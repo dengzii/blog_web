@@ -53,7 +53,6 @@ function Archives() {
                         }
                         p.push(archive)
                     }
-                    console.log(all);
                     setArchive(all)
                 }
                 , error => {
@@ -69,14 +68,15 @@ function Archives() {
         <Typography variant={"h5"}>Archive</Typography>
         <br/>
         {archive.map((value) => (
-            <>
+            <div key={value.time}>
                 <Typography className={styles.time} variant={"subtitle1"} component={"p"}>{value.time}</Typography>
                 {value.archive.map((article) => (
-                    <Typography key={article.created_at} className={styles.articleItem} variant={"body1"}
+                    <Typography key={article.article_id} className={styles.articleItem} variant={"body1"}
                                 component={"p"}>{timeStampSecToDateTime(article.created_at)} <Link
-                        to={"/article/" + article.article_id} className={styles.link}>{article.title}</Link></Typography>
+                        to={"/article/" + article.article_id} className={styles.link}>{article.title}</Link>
+                    </Typography>
                 ))}
-            </>
+            </div>
         ))}
 
     </Paper>)

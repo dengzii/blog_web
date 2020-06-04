@@ -6,6 +6,7 @@ import {getArticleDetail} from "../api/Api";
 import {Article} from "../api/model";
 import {timeStampSecToDate} from "../utils/TimeUtils";
 import {RouteComponentProps, withRouter} from "react-router";
+import {getCookie, setCookie} from "../utils/Cookies";
 
 const useStyle = makeStyles((theme: Theme) => createStyles({
     root: {
@@ -41,9 +42,11 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
         const [article, setArticle] = useState(emptyArticle);
         useEffect(() => {
             let param = props.match.params as { id: number };
-            const subscription = getArticleDetail(param.id)
+            let isRead = getCookie(`read_${param.id}`);
+            const subscription = getArticleDetail(param.id, isRead === null)
                 .subscribe(response => {
-                    setArticle(response.data)
+                    setArticle(response.data);
+                    setCookie(`read_${param.id}`, "1", 1);
                 }, error => {
                     console.log(error)
                 });

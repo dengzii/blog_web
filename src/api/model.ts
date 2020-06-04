@@ -1,3 +1,17 @@
+export interface Profile {
+    name: string
+    site_name: string
+    avatar: string
+    email: string
+    bio: string
+    links: string
+    likes: number
+    follower: number
+    following: number
+    github: string
+    views: number
+}
+
 export interface Article {
     id: number
     title: string

@@ -131,8 +131,9 @@ function ArticlesList(props: { category: string }) {
     const style = useStyles();
     return (<>
         {articles.map((value: Article) =>
-            (<ArticleListItem key={value.updated_at} article={value}/>)
+            <ArticleListItem key={value.updated_at} article={value}/>
         )}
+
         <Grid container={true} justify={"center"}>
             <Button className={style.loadMore} variant={"text"}
                     onClick={handleLoadMore}>{hasMore ? `查看 ${timeStampSecToDateTime(last)} 之前的文章` : "没有更多了"}</Button>

@@ -34,6 +34,10 @@ export class Rxios {
         return this.fromAxios(() => this._axios.put(url, data)).pipe(this.resolve<T>())
     }
 
+    public patch<T>(url: string, data?: any): Observable<T> {
+        return this.fromAxios(() => this._axios.patch(url, data)).pipe(this.resolve<T>())
+    }
+
     public get<T>(url: string): Observable<T> {
         return this.fromAxios(() => this._axios.get(url)).pipe(this.resolve<T>())
     }
