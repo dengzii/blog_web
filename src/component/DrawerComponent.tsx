@@ -85,7 +85,7 @@ export default function DrawerComponent() {
     return (<div>
         <Box bgcolor="background.paper" style={style}>
             <DrawerHeaderComponent/>
-            <LoginDialog open={loginDialogOpen} onClose={() => setLoginDialogOpen(false)}/>
+            {/*<LoginDialog open={loginDialogOpen} onClose={() => setLoginDialogOpen(false)}/>*/}
             <Divider/>
             <List>{items}</List>
         </Box>

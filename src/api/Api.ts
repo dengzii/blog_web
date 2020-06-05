@@ -2,7 +2,6 @@ import {Rxios} from "./rxios";
 import {Observable} from "rxjs";
 import {About, Archive, Article, Category, Friend, Profile} from "./model";
 
-
 const rxios = new Rxios();
 
 interface Response<T> {
@@ -20,12 +19,10 @@ export function getArticleDetail(id: number, view: boolean = false): Observable<
 }
 
 export function getArticleList(last: number, category: string): Observable<Response<Article[]>> {
-
     return rxios.get<Response<Article[]>>(`/dengzi?last=${last}&category=${category}`)
 }
 
 export function getCategories(): Observable<Response<Category[]>> {
-
     return rxios.get<Response<Category[]>>(`/dengzi/category`)
 }
 
@@ -47,4 +44,8 @@ export function putFriends(friend: Friend): Observable<Response<void>> {
 
 export function viewSite(): Observable<Response<void>> {
     return rxios.patch<Response<void>>("/dengzi/user/views")
+}
+
+export function login(username: string, password: string): Observable<Response<any>> {
+    return rxios.post<Response<any>>("/dengzi/login", {username: username, password: password})
 }

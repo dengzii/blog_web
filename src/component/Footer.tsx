@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import {createStyles, Grid, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {Profile} from "../api/model";
+import LoginDialog from "./LoginDialog";
+import {login} from "../api/Api";
 
 const style = makeStyles((theme) => createStyles({
     main: {
@@ -13,6 +15,11 @@ const style = makeStyles((theme) => createStyles({
     text: {
         color: theme.palette.grey["300"]
     },
+    link: {
+        color: theme.palette.primary.main,
+        textDecoration: "none",
+        cursor: "pointer"
+    },
     row: {
         height: "46px"
     }
@@ -21,14 +28,31 @@ const style = makeStyles((theme) => createStyles({
 export default function Footer(prop: { profile: Profile }) {
 
     const styles = style();
+    const [showLogin, setShowLogin] = useState(false);
+
     const infos: JSX.Element[] = [
-        <span>Github: {prop.profile.github}</span>,
+        <span>Github: <a className={styles.link} href={`https://github.com/${prop.profile.github}`} target={"_blank"}>
+            {prop.profile.github}</a>
+        </span>,
         <span>Email: {prop.profile.email.replace("@", "#")}</span>,
         <span>页面被访问: {prop.profile.views} 次</span>,
         <span>Powered By: React + Iris</span>];
 
+    const handleLogin = (username: string, password: string) => {
+        setShowLogin(false);
+        login(username, password).subscribe((response) => {
+            if (response.status !== 200) {
+
+            }
+        }, (err) => {
+
+        })
+    };
+
     return (
         <Grid container={true} className={styles.main} justify={"center"}>
+            <LoginDialog open={showLogin} onClose={() => setShowLogin(false)} onLogin={handleLogin}/>
+
             <Grid item={true} xs={12} md={10} lg={6}>
                 <Grid item={true} container xs={12}>
                     {infos.map((value) => (
@@ -36,6 +60,14 @@ export default function Footer(prop: { profile: Profile }) {
                             <Typography className={styles.text} variant="overline" display="block" gutterBottom
                                         align={"left"}>{value}</Typography>
                         </Grid>))}
+                </Grid>
+                <Grid item={true} container xs={6} className={styles.row}>
+                    <Typography className={styles.link} variant="overline" display="block" gutterBottom
+                                align={"center"} onClick={() => {
+                        setShowLogin(true)
+                    }}>
+                        Login
+                    </Typography>
                 </Grid>
                 <Grid item={true} container xs={6} className={styles.row}>
                     <Typography className={styles.text} variant="overline" display="block" gutterBottom
