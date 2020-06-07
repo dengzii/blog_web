@@ -33,7 +33,7 @@ export default function LoginDialog(props: LoginDialogProp) {
                     loginField.username = e.target.value;
                     setLoginField(loginField)
                 }}/>
-                <TextField autoFocus margin="dense" id="password" label="Password" type="password" fullWidth
+                <TextField margin="dense" id="password" label="Password" type="password" fullWidth
                            onChange={e => {
                                loginField.password = e.target.value;
                                setLoginField(loginField)

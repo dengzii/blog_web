@@ -47,5 +47,5 @@ export function viewSite(): Observable<Response<void>> {
 }
 
 export function login(username: string, password: string): Observable<Response<any>> {
-    return rxios.post<Response<any>>("/dengzi/login", {username: username, password: password})
+    return rxios.post<Response<any>>("/dengzi/user", {username: username, password: password})
 }

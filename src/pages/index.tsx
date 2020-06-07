@@ -74,9 +74,11 @@ export default function Index() {
             });
         }
         getProfile().subscribe((response) => {
-            setProfile(response.data)
+            setProfile(response.data);
         })
     }, []);
+
+    window.document.title = profile.site_name;
 
     return (<div className="App">
         <div id={"back-to-top-anchor"}/>
@@ -94,7 +96,7 @@ export default function Index() {
                             </Typography>
                         </Box>
                         <Grid item xs={12} className={classes.nav}>
-                            <StickyNavTabs/>
+                            <StickyNavTabs avatar={profile.avatar}/>
                         </Grid>
                     </Grid>
                 </Grid>

@@ -134,7 +134,7 @@ const NavTabs = withRouter((props: RouteComponentProps) => {
     </WhiteAppBar>)
 });
 
-function FixedTopNavTabs(props: { scrollableNavTabsId: string }) {
+function FixedTopNavTabs(props: { scrollableNavTabsId: string, avatar: string }) {
 
     const [hidden, setHidden] = useState(true);
     let fixedBar: Element | null;
@@ -153,12 +153,12 @@ function FixedTopNavTabs(props: { scrollableNavTabsId: string }) {
         }
         // eslint-disable-next-line
     }, []);
-    
+
     const styles = useStyle();
     return (
         <Box hidden={hidden} className={styles.fixedBar}>
             <Box className={styles.avatarBox}>
-                <Avatar className={styles.avatar} src={"/pic.jpg"} alt={'avatar'}/>
+                <Avatar className={styles.avatar} src={props.avatar} alt={'avatar'}/>
             </Box>
             <Grid container justify={"center"} alignItems={"center"}>
                 <Grid item xs={12} md={10} lg={8} xl={6}>
@@ -170,11 +170,11 @@ function FixedTopNavTabs(props: { scrollableNavTabsId: string }) {
     )
 }
 
-function StickyNavTabs() {
+function StickyNavTabs(props: { avatar: string }) {
     const id = "scrollable-nav-tabs";
     return (
         <>
-            <FixedTopNavTabs scrollableNavTabsId={id}/>
+            <FixedTopNavTabs scrollableNavTabsId={id} avatar={props.avatar}/>
             <div id={id}>
                 <NavTabs/>
             </div>
