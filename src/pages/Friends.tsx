@@ -50,13 +50,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const emptyFriend: Friend[] = [];
 const emptySnackBar = {display: false, toast: ""};
+const emptyFields = {name: "", url: "", avatar: "", contact: "", desc: ""};
 
 export default function Friends() {
 
     const styles = useStyles();
     const [friends, setFriends] = useState(emptyFriend);
     const [snackbar, setSnackbar] = useState(emptySnackBar);
-    const field = {name: "", url: "", avatar: "", contact: "", desc: ""};
+    const [field, setField] = useState(emptyFields);
+    // const field = {name: "", url: "", avatar: "", contact: "", desc: ""};
 
     useEffect(() => {
         const subscription = getFriends()
@@ -80,8 +82,7 @@ export default function Friends() {
             setSnackbar({display: true, toast: "称呼和主页是必填的哦."});
             return
         }
-        putFriends(field).subscribe(
-            () => {
+        putFriends(field).subscribe(() => {
                 setSnackbar({display: true, toast: `你好 ${field.name}, 很快我们就能成为朋友啦!`});
             },
             error => {
@@ -120,19 +121,24 @@ export default function Friends() {
                         和我成为朋友
                     </Typography>
                     <TextField className={styles.input} label="如何称呼" required onChange={(e) => {
-                        field.name = e.target.value
+                        field.name = e.target.value;
+                        setField(field)
                     }}/>
                     <TextField className={styles.input} label="主页" required onChange={(e) => {
-                        field.url = e.target.value
+                        field.url = e.target.value;
+                        setField(field)
                     }}/><br/>
                     <TextField className={styles.input} label="一句话简介" onChange={(e) => {
-                        field.desc = e.target.value
+                        field.desc = e.target.value;
+                        setField(field)
                     }}/>
                     <TextField className={styles.input} label="一个头像" onChange={(e) => {
-                        field.avatar = e.target.value
+                        field.avatar = e.target.value;
+                        setField(field)
                     }}/>
                     <TextField className={styles.input} label="联系方式" onChange={(e) => {
-                        field.contact = e.target.value
+                        field.contact = e.target.value;
+                        setField(field)
                     }}/><br/><br/>
                     <Button variant="contained" color="primary" disableElevation size={"medium"}
                             onClick={handleSubmitClick}>提 交</Button>
