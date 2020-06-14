@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {createStyles, Grid, Typography} from "@material-ui/core";
+import {createStyles, Grid, Snackbar, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {Profile} from "../api/model";
 import LoginDialog from "./LoginDialog";
@@ -25,10 +25,13 @@ const style = makeStyles((theme) => createStyles({
     }
 }));
 
+const emptySnackBar = {display: false, toast: ""};
+
 export default function Footer(prop: { profile: Profile }) {
 
     const styles = style();
     const [showLogin, setShowLogin] = useState(false);
+    const [snackbar, setSnackbar] = useState(emptySnackBar);
 
     const infos: JSX.Element[] = [
         <span>Github: <a className={styles.link} href={`https://github.com/${prop.profile.github}`} target={"_blank"}>
@@ -41,18 +44,26 @@ export default function Footer(prop: { profile: Profile }) {
     const handleLogin = (username: string, password: string) => {
         setShowLogin(false);
         login(username, password).subscribe((response) => {
-            if (response.status !== 200) {
-
+            if (response.status === 200) {
+                setSnackbar({display: true, toast: "login successful"})
+            } else {
+                setSnackbar({display: true, toast: response.msg})
             }
         }, (err) => {
-
+            setSnackbar({display: true, toast: err})
         })
     };
 
     return (
         <Grid container={true} className={styles.main} justify={"center"}>
             <LoginDialog open={showLogin} onClose={() => setShowLogin(false)} onLogin={handleLogin}/>
-
+            <Snackbar open={snackbar.display}
+                      autoHideDuration={2000}
+                      message={snackbar.toast}
+                      anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+                      onClose={() => {
+                          setSnackbar(emptySnackBar)
+                      }}/>
             <Grid item={true} xs={12} md={10} lg={6}>
                 <Grid item={true} container xs={12}>
                     {infos.map((value) => (

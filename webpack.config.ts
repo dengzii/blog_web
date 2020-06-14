@@ -1,15 +1,19 @@
-import path from 'path';
-import webpack from 'webpack';
+// @ts-ignore
+const path = require("path");
 
-const config: webpack.Configuration = {
+module.exports = {
     mode: 'development',
     entry: './src/index.tsx',
     module: {
         rules: [
             {
                 test: /\.tsx?$/,
-                use: 'ts-loader',
-                exclude: /node_modules/
+                loader: 'ts-loader',
+                exclude: /node_modules|\.d\.ts$/
+            },
+            {
+                test: /\.d\.ts$/,
+                loader: 'ignore-loader'
             },
             {
                 test: /\.css$/,
@@ -43,5 +47,3 @@ const config: webpack.Configuration = {
         'react-dom': 'ReactDOM'
     }
 };
-
-export default config
