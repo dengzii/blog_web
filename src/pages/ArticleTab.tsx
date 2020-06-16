@@ -63,7 +63,6 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
         if (article === undefined || article === null) {
             return (<div/>)
         } else {
-            console.log(article);
             const infos = [
                 `分类 : ${article.category_name}`,
                 `作者 : ${article.author_name}`,
@@ -74,7 +73,7 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
             return (
                 <Grid container justify={"center"} spacing={1}>
                     <Grid item={true} className={styles.root} xs={12} md={9}>
-                        <Paper elevation={0}>
+                        <Paper elevation={1}>
                             <Box className={styles.titleBox}>
                                 <Typography variant={"h6"} component={"span"} gutterBottom align={"justify"}>
                                     {article.title}
@@ -86,12 +85,21 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
                                 <Markdown markdown={article.content}/>
                             </Box>
                         </Paper>
+
+                        <Paper elevation={1} hidden>
+                            <Box className={styles.articleBody}>
+                                <Typography variant={"h6"} component={"span"} align={"justify"}>
+                                    Comment
+                                </Typography>
+                            </Box>
+                        </Paper>
                     </Grid>
+
                     <Grid item={true} xs={12} md={3}>
-                        <Paper elevation={0} className={styles.sideCard}>
+                        <Paper elevation={1} className={styles.sideCard}>
                             {infos.map((value) => (<ListItem key={value}>{value}</ListItem>))}
                         </Paper>
-                        <Paper elevation={0} className={styles.catalog}>
+                        <Paper elevation={1} className={styles.catalog}>
                             <ListItem>目录</ListItem>
                         </Paper>
                     </Grid>

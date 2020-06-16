@@ -15,10 +15,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react",
-    "module": "esnext"
+    "module": "esnext",
+    "noEmit": true
   },
   "include": [
-    "src"
+    "src",
+    "public"
   ],
   "exclude": [
     "node_modules"

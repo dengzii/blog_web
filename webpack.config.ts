@@ -1,9 +1,18 @@
 // @ts-ignore
-const path = require("path");
 
-module.exports = {
-    mode: 'development',
-    entry: './src/index.tsx',
+
+import * as webpack from "webpack";
+
+const webpack = require('webpack');
+const path = require("path");
+const uglify = require('uglifyjs-webpack-plugin');
+
+const conf = {
+    mode: 'production',
+    entry: __dirname + '/src/index.tsx',
+        // commons: packagejson.dependencies.array
+
+    devtool: 'false',
     module: {
         rules: [
             {
@@ -36,7 +45,7 @@ module.exports = {
         ]
     },
     output: {
-        filename: 'bundle.js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'dist')
     },
     resolve: {
@@ -45,5 +54,26 @@ module.exports = {
     externals: {
         'react': 'React',
         'react-dom': 'ReactDOM'
-    }
+    },
+    optimization: {
+        splitChunks: {
+            chunks: "all",
+            minSize: 30000,
+            minChunks: 1,
+            cacheGroups: {
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    chunks: "initial",
+                    minChunks: 2,
+                    reuseExistingChunk: true,
+                    filename: 'commons.js'
+                }
+            }
+        }
+    },
+    plugins: [
+        new uglify()
+    ]
 };
+
+module.exports = conf;
