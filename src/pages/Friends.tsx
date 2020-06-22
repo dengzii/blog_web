@@ -15,6 +15,7 @@ import {
 import {makeStyles} from "@material-ui/core/styles";
 import {Friend} from "../api/model";
 import {getFriends, putFriends} from "../api/Api";
+import Markdown from "../highlight/Markdown";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -44,6 +45,10 @@ const useStyles = makeStyles((theme: Theme) =>
         title: {
             paddingTop: theme.spacing(2),
             paddingBottom: theme.spacing(2)
+        },
+        a: {
+            textColor: theme.palette.text.primary,
+            textDecoration: "none"
         }
     })
 );
@@ -74,9 +79,6 @@ export default function Friends() {
         }
     }, []);
 
-    const handleItemClick = (url: string) => {
-        window.open(url)
-    };
     const handleSubmitClick = () => {
         if (field.name.length === 0 || field.url.length === 0) {
             setSnackbar({display: true, toast: "称呼和主页是必填的哦."});
@@ -91,6 +93,12 @@ export default function Friends() {
         );
     };
 
+    const myInfo = `
+> - 名称: dengzii's blog
+> - 简介: 简单程序猿
+> - 网址: https://dengzii.com
+> - 头像: https://dengzii.com/static/img/avatar.png`;
+
     return (
         <Paper className={styles.root}>
             <Typography variant={"h5"}>
@@ -99,20 +107,20 @@ export default function Friends() {
             <br/><br/>
             <Grid container spacing={4}>
                 {friends.map((value) => (
-                    <Grid item xs={12} sm={6} lg={4} md={4} className={styles.item} key={value.url} onClick={e => {
-                        handleItemClick(value.url)
-                    }}>
-                        <Box style={{display: "flex"}}>
-                            <Avatar variant={"circle"} src={value.avatar} className={styles.avatar}
-                                    style={{margin: "0px"}}>
-                                {value.name}
-                            </Avatar>
-                            <Box className={styles.nameAndBio}>
-                                <Typography variant={"subtitle1"}>{value.name}</Typography>
-                                <Typography variant={"subtitle1"} color={"textSecondary"}>{value.url}</Typography>
-                                <Typography variant={"subtitle1"} color={"textSecondary"}>{value.desc}</Typography>
+                    <Grid item xs={12} sm={6} lg={4} md={4} className={styles.item} key={value.url}>
+                        <a href={value.url} target={'_blank'} className={styles.a}>
+                            <Box style={{display: "flex"}}>
+                                <Avatar variant={"circle"} src={value.avatar} className={styles.avatar}
+                                        style={{margin: "0px"}}>
+                                    {value.name}
+                                </Avatar>
+                                <Box className={styles.nameAndBio}>
+                                    <Typography variant={"subtitle1"} color={"textPrimary"}>{value.name}</Typography>
+                                    {/*<Typography variant={"subtitle1"} color={"textSecondary"}>{value.url}</Typography>*/}
+                                    <Typography variant={"body2"} color={"textSecondary"}>{value.desc}</Typography>
+                                </Box>
                             </Box>
-                        </Box>
+                        </a>
                     </Grid>
                 ))}
                 <Divider variant={"middle"}/><br/>
@@ -120,6 +128,7 @@ export default function Friends() {
                     <Typography className={styles.title} variant={"h5"}>
                         和我成为朋友
                     </Typography>
+                    <Markdown markdown={myInfo}/>
                     <TextField className={styles.input} label="如何称呼" required onChange={(e) => {
                         field.name = e.target.value;
                         setField(field)

@@ -16,6 +16,7 @@ import ArticleTab from "./ArticleTab";
 import {getCookie, setCookie} from "../utils/Cookies";
 import {getProfile, viewSite} from "../api/Api";
 import {Profile} from "../api/model";
+import Fade from "@material-ui/core/Fade";
 
 // function isMobile(): boolean {
 //     let mobileAgent = false;///Android|iPhone|iPod|BlackBerry/i.test(navigator.userAgent);
@@ -62,7 +63,15 @@ const emptyProfile: Profile = {
     views: 0,
 };
 
+
 export default function Index() {
+    return (
+        <Fade in={true} timeout={1000}>
+            <Main/>
+        </Fade>)
+}
+
+function Main(props: any) {
     const classes = useStyle();
     const [profile, setProfile] = useState(emptyProfile);
 
@@ -80,7 +89,7 @@ export default function Index() {
 
     window.document.title = profile.site_name;
 
-    return (<div className="App">
+    return (<div className="App" {...props}>
         <div id={"back-to-top-anchor"}/>
         <BrowserRouter>
             <Foreground backToTopAnchor={"#back-to-top-anchor"}/>

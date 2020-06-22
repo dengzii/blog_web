@@ -53,8 +53,9 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         marginBottom: theme.spacing(2),
         cursor: "pointer"
     },
-    paragraph:{
-        paddingBottom:theme.spacing(1)
+    paragraph: {
+        width: '100%',
+        paddingBottom: theme.spacing(1)
     }
 }));
 
@@ -151,7 +152,8 @@ const renderTypeMap: { [nodeType: string]: ElementType } = {
     listItem: ListItemBlock,
     blockquote: QuoteBlock,
     inlineCode: InlineCode,
-    thematicBreak: DividerBlock
+    thematicBreak: DividerBlock,
+    imageReference: ImageBlock
 };
 
 export default function Markdown(props: { markdown: string }) {

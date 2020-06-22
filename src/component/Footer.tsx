@@ -66,19 +66,26 @@ export default function Footer(prop: { profile: Profile }) {
                       }}/>
             <Grid item={true} xs={12} md={10} lg={6}>
                 <Grid item={true} container xs={12}>
-                    {infos.map((value) => (
-                        <Grid xs={6} item={true} className={styles.row}>
+                    {infos.map((value, index) => (
+                        <Grid xs={6} item={true} className={styles.row} key={index}>
                             <Typography className={styles.text} variant="overline" display="block" gutterBottom
                                         align={"left"}>{value}</Typography>
                         </Grid>))}
                 </Grid>
-                <Grid item={true} container xs={6} className={styles.row}>
-                    <Typography className={styles.link} variant="overline" display="block" gutterBottom
-                                align={"center"} onClick={() => {
-                        setShowLogin(true)
-                    }}>
-                        Login
-                    </Typography>
+                <Grid item={true} container xs={12}>
+                    <Grid xs={6} item={true} className={styles.row}>
+                        <Typography className={styles.link} variant="overline" display="block" gutterBottom
+                                    align={"left"} onClick={() => {
+                            setShowLogin(true)
+                        }}>
+                            管理员登录
+                        </Typography>
+                    </Grid>
+                    <Grid xs={6} item={true} className={styles.row}>
+                        <Typography className={styles.text} variant="overline" display="block" gutterBottom
+                                    align={"left"}><a href={"http://b.dengzii.com"}
+                                                      target={"_blank"}>访问旧版</a></Typography>
+                    </Grid>
                 </Grid>
                 <Grid item={true} container xs={6} className={styles.row}>
                     <Typography className={styles.text} variant="overline" display="block" gutterBottom

@@ -27,7 +27,7 @@ export default function LargeImage(props: LargeImageProps) {
     const styles = useStyles();
     return (
         <>
-            <img src={props.src} alt={props.alt}/>
+            <img src={props.src} alt={props.alt} width={'100%'}/>
             <Backdrop open={props.open} onClick={props.onClick} className={styles.backdrop}>
                 <img className={styles.img} src={props.src} alt={''}/>
             </Backdrop>

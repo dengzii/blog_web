@@ -58,7 +58,9 @@ function Articles(props: RouteComponentProps) {
     useEffect(() => {
         const categorySubscription = getCategories()
             .subscribe(response => {
-                setCategories(response.data)
+                let c: Category[] = [{name: "All", id: 0}];
+                c.push(...response.data);
+                setCategories(c)
             }, error => {
 
             });
@@ -131,7 +133,7 @@ function ArticlesList(props: { category: string }) {
     const style = useStyles();
     return (<>
         {articles.map((value: Article) =>
-            <ArticleListItem key={value.updated_at} article={value}/>
+            <ArticleListItem key={value.title} article={value}/>
         )}
 
         <Grid container={true} justify={"center"}>
