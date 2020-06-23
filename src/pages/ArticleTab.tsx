@@ -7,30 +7,32 @@ import {Article} from "../api/model";
 import {timeStampSecToDate} from "../utils/TimeUtils";
 import {RouteComponentProps, withRouter} from "react-router";
 import {getCookie, setCookie} from "../utils/Cookies";
+import {isMobile} from "../utils/Utils";
 
 const useStyle = makeStyles((theme: Theme) => createStyles({
     root: {
-        marginBottom: theme.spacing(4)
+        marginBottom: isMobile() ? theme.spacing(2) : theme.spacing(4)
     },
     titleBox: {
-        padding: theme.spacing(4),
+        padding: isMobile() ? theme.spacing(2) : theme.spacing(4),
         paddingBottom: theme.spacing(2)
     },
     title: {
         paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(4),
+        paddingRight: isMobile() ? theme.spacing(2) : theme.spacing(4),
         paddingTop: theme.spacing(2)
     },
     articleBody: {
-        paddingLeft: theme.spacing(4),
-        paddingRight: theme.spacing(4),
-        paddingBottom: theme.spacing(4)
+        paddingLeft: isMobile() ? theme.spacing(2) : theme.spacing(4),
+        paddingRight: isMobile() ? theme.spacing(2) : theme.spacing(4),
+        paddingBottom: isMobile() ? theme.spacing(2) : theme.spacing(4)
     },
     sideCard: {
         padding: theme.spacing(1)
     },
     catalog: {
         marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
         padding: theme.spacing(1)
     }
 }));

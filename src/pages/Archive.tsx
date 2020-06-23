@@ -5,20 +5,21 @@ import {Link} from "react-router-dom";
 import {Archive} from "../api/model";
 import {getYearFromTimeStampSec, timeStampSecToDateTime} from "../utils/TimeUtils";
 import {getArchives} from "../api/Api";
+import {isMobile} from "../utils/Utils";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             padding: theme.spacing(4),
-            paddingLeft: theme.spacing(6),
-            paddingRight: theme.spacing(6),
+            paddingLeft: isMobile() ? theme.spacing(2) : theme.spacing(6),
+            paddingRight: isMobile() ? theme.spacing(2) : theme.spacing(6),
         },
         time: {
             paddingTop: theme.spacing(1),
             fontWeight: "bold"
         },
         articleItem: {
-            paddingLeft: theme.spacing(2),
+            paddingLeft: isMobile() ? theme.spacing(0) :theme.spacing(2),
             paddingTop: theme.spacing(1),
         },
         link: {

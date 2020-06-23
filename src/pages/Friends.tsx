@@ -16,13 +16,14 @@ import {makeStyles} from "@material-ui/core/styles";
 import {Friend} from "../api/model";
 import {getFriends, putFriends} from "../api/Api";
 import Markdown from "../highlight/Markdown";
+import {isMobile} from "../utils/Utils";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             padding: theme.spacing(4),
-            paddingLeft: theme.spacing(6),
-            paddingRight: theme.spacing(6)
+            paddingLeft: isMobile() ? theme.spacing(2) : theme.spacing(6),
+            paddingRight: isMobile() ? theme.spacing(2) : theme.spacing(6)
         },
         avatar: {
             width: theme.spacing(8),

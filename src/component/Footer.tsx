@@ -4,11 +4,14 @@ import {makeStyles} from "@material-ui/core/styles";
 import {Profile} from "../api/model";
 import LoginDialog from "./LoginDialog";
 import {login} from "../api/Api";
+import {isMobile} from "../utils/Utils";
 
 const style = makeStyles((theme) => createStyles({
     main: {
         background: theme.palette.grey["600"],
         height: "auto",
+        paddingLeft: isMobile() ? theme.spacing(1) : 0,
+        paddingRight: isMobile() ? theme.spacing(1) : 0,
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4)
     },

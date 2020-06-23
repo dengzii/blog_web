@@ -17,12 +17,7 @@ import {getCookie, setCookie} from "../utils/Cookies";
 import {getProfile, viewSite} from "../api/Api";
 import {Profile} from "../api/model";
 import Fade from "@material-ui/core/Fade";
-
-// function isMobile(): boolean {
-//     let mobileAgent = false;///Android|iPhone|iPod|BlackBerry/i.test(navigator.userAgent);
-//     let smallScreen = (window.innerWidth < 600);
-//     return mobileAgent || smallScreen;
-// }
+import {isMobile} from "../utils/Utils";
 
 let useStyle = makeStyles((theme: Theme) =>
     createStyles({
@@ -30,6 +25,7 @@ let useStyle = makeStyles((theme: Theme) =>
             background: theme.palette.grey["100"],
         },
         head: {
+            paddingLeft: isMobile() ? theme.spacing(2) : theme.spacing(1),
             paddingTop: theme.spacing(4),
             width: "100%",
             background: "white"

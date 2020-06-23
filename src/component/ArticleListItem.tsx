@@ -10,8 +10,6 @@ let classes = makeStyles((theme) =>
     createStyles({
         main: {
             width: "100%",
-            marginLeft: theme.spacing(1),
-            marginRight: theme.spacing(2),
             marginTop: theme.spacing(2),
             marginBottom: theme.spacing(2)
         },

@@ -6,6 +6,7 @@ import {getArticleList, getCategories} from "../api/Api";
 import ArticleListItem from "../component/ArticleListItem";
 import {Article, Category} from "../api/model";
 import {timeStampSecToDateTime} from "../utils/TimeUtils";
+import {isMobile} from "../utils/Utils";
 
 let useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -17,9 +18,9 @@ let useStyles = makeStyles((theme: Theme) =>
             marginRight: theme.spacing(2)
         },
         main: {
-            paddingTop: theme.spacing(3),
-            paddingLeft: theme.spacing(4),
-            paddingRight: theme.spacing(4)
+            paddingTop: isMobile() ? theme.spacing(2) : theme.spacing(3),
+            paddingLeft: isMobile() ? theme.spacing(2) : theme.spacing(4),
+            paddingRight: isMobile() ? theme.spacing(2) : theme.spacing(4)
         },
         chip: {
             marginLeft: theme.spacing(1),
