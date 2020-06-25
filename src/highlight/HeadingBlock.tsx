@@ -7,6 +7,11 @@ const elements = ["h1", "h2", "h3", "h4", "h5", "h6"];
 const style = makeStyles((theme) => createStyles({
     link: {
         color: theme.palette.text.primary
+    },
+    heading:{
+        display:"block",
+        paddingBottom: theme.spacing(2),
+        borderBottom: "1px solid #ececec"
     }
 }));
 
@@ -26,9 +31,9 @@ function HeadingBlock(props: { level: number, children: any }) {
                 nodeValue = nodeValue.replace(/[.\s'",~!@#$%^&*()_+=\-/\\]/g, "-");
             }
             return (<>
+                <a href={`#${nodeValue}`} className={`${classes.link} paragraph-anchor`} hidden><LinkIcon color={"primary"}/></a>
                 <Heading level={level} id={nodeValue}>
-                    <span>{children}</span>
-                    <a href={"#" + nodeValue} className={classes.link} hidden><LinkIcon color={"action"}/></a>
+                    <span className={level <= 2 ?classes.heading : ""}>{children}</span>
                 </Heading>
             </>)
         } else {

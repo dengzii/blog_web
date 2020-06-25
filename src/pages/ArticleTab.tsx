@@ -34,6 +34,18 @@ const useStyle = makeStyles((theme: Theme) => createStyles({
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
         padding: theme.spacing(1)
+    },
+    ul: {
+        marginTop: "0px",
+        marginBottom: theme.spacing(2)
+    },
+    li: {
+        textColor: theme.palette.text.secondary,
+        cursor: "pointer",
+        paddingTop: theme.spacing(1),
+        "&:hover": {
+            textColor: theme.palette.primary
+        }
     }
 }));
 
@@ -65,6 +77,16 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
         if (article === undefined || article === null) {
             return (<div/>)
         } else {
+            const headRegex = /^## ([^\n]+)$/gmi;
+            let find = headRegex.exec(article.content);
+            let heads = [];
+            while (find !== null) {
+                heads.push(find[1]);
+                find = headRegex.exec(article.content);
+            }
+            // for (let i = 0; i < heads.length; i++) {
+            //     heads[i] = heads[i]
+            // }
             const infos = [
                 `分类 : ${article.category_name}`,
                 `作者 : ${article.author_name}`,
@@ -103,6 +125,12 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
                         </Paper>
                         <Paper elevation={1} className={styles.catalog}>
                             <ListItem>目录</ListItem>
+                            <ul className={styles.ul}>
+                                {heads.map((value) => (
+                                    <li className={styles.li} key={value}>
+                                        <a href={`#${value.replace(/[. '",~!@#$%^&*()_+=\-/\\]/gmi, "-")}`}>{value}</a>
+                                    </li>))}
+                            </ul>
                         </Paper>
                     </Grid>
                 </Grid>

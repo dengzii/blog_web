@@ -1,4 +1,4 @@
-import React, {ElementType, useState} from "react";
+import React, {ElementType, forwardRef, PropsWithoutRef, useState} from "react";
 import CodeBlock from "./CodeBlock";
 import HeadingBlock from "./HeadingBlock";
 import ReactMarkdown from "react-markdown";

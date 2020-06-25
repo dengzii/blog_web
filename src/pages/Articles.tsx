@@ -23,7 +23,7 @@ let useStyles = makeStyles((theme: Theme) =>
             paddingRight: isMobile() ? theme.spacing(2) : theme.spacing(4)
         },
         chip: {
-            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
             marginBottom: theme.spacing(1),
         },
         loadMore: {
