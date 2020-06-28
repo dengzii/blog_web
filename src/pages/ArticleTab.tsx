@@ -8,6 +8,7 @@ import {timeStampSecToDate} from "../utils/TimeUtils";
 import {RouteComponentProps, withRouter} from "react-router";
 import {getCookie, setCookie} from "../utils/Cookies";
 import {isMobile} from "../utils/Utils";
+import {inherits} from "util";
 
 const useStyle = makeStyles((theme: Theme) => createStyles({
     root: {
@@ -30,6 +31,11 @@ const useStyle = makeStyles((theme: Theme) => createStyles({
     sideCard: {
         padding: theme.spacing(1)
     },
+    fixedSideCard: {
+        position: "fixed",
+        top: "60px",
+        width: "inherit"
+    },
     catalog: {
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
@@ -39,12 +45,14 @@ const useStyle = makeStyles((theme: Theme) => createStyles({
         marginTop: "0px",
         marginBottom: theme.spacing(2)
     },
-    li: {
-        textColor: theme.palette.text.secondary,
+    a: {
+        color: theme.palette.text.secondary,
         cursor: "pointer",
-        paddingTop: theme.spacing(1),
+        display: "inline-block",
+        lineHeight: "25px",
+        textDecoration: "none",
         "&:hover": {
-            textColor: theme.palette.primary
+            color: theme.palette.info.main
         }
     }
 }));
@@ -54,6 +62,8 @@ let emptyArticle: Article;
 const ArticleTab = withRouter((props: RouteComponentProps) => {
 
         const [article, setArticle] = useState(emptyArticle);
+        const [fixedSide, setFixedSide] = useState(false);
+
         useEffect(() => {
             let param = props.match.params as { id: number };
             let isRead = getCookie(`read_${param.id}`);
@@ -70,6 +80,23 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
                 }
             }
             // eslint-disable-next-line
+        }, []);
+
+        let sideInfoCard: Element | null;
+        const scrollEventListener = () => {
+            if (sideInfoCard === undefined || sideInfoCard === null) {
+                sideInfoCard = window.document.querySelector(".main-content");
+            }
+            if (sideInfoCard !== undefined && sideInfoCard !== null) {
+                const top = sideInfoCard.getBoundingClientRect().top;
+                setFixedSide(top < 60)
+            }
+        };
+        useEffect(() => {
+            window.addEventListener('scroll', scrollEventListener);
+            return () => {
+                window.removeEventListener("scroll", scrollEventListener)
+            }
         }, []);
 
         const styles = useStyle();
@@ -96,7 +123,7 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
             ];
             return (
                 <Grid container justify={"center"} spacing={1}>
-                    <Grid item={true} className={styles.root} xs={12} md={9}>
+                    <Grid item={true} className={`${styles.root} main-content`} xs={12} md={9}>
                         <Paper elevation={1}>
                             <Box className={styles.titleBox}>
                                 <Typography variant={"h6"} component={"span"} gutterBottom align={"justify"}>
@@ -120,18 +147,21 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
                     </Grid>
 
                     <Grid item={true} xs={12} md={3}>
-                        <Paper elevation={1} className={styles.sideCard}>
-                            {infos.map((value) => (<ListItem key={value}>{value}</ListItem>))}
-                        </Paper>
-                        <Paper elevation={1} className={styles.catalog}>
-                            <ListItem>目录</ListItem>
-                            <ul className={styles.ul}>
-                                {heads.map((value) => (
-                                    <li className={styles.li} key={value}>
-                                        <a href={`#${value.replace(/[. '",~!@#$%^&*()_+=\-/\\]/gmi, "-")}`}>{value}</a>
-                                    </li>))}
-                            </ul>
-                        </Paper>
+                        <Grid item={true} className={fixedSide ? styles.fixedSideCard : ""}>
+                            <Paper elevation={1} className={styles.sideCard}>
+                                {infos.map((value) => (<ListItem key={value}>{value}</ListItem>))}
+                            </Paper>
+                            <Paper elevation={1} className={styles.catalog}>
+                                <ListItem>目录</ListItem>
+                                <ul className={styles.ul}>
+                                    {heads.map((value) => (
+                                        <li key={value}>
+                                            <a className={styles.a}
+                                               href={`#${value.replace(/[. '",~!@#$%^&*()_+=\-/\\]/gmi, "-")}`}>{value}</a>
+                                        </li>))}
+                                </ul>
+                            </Paper>
+                        </Grid>
                     </Grid>
                 </Grid>
             )
