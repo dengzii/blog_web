@@ -8,7 +8,6 @@ import {timeStampSecToDate} from "../utils/TimeUtils";
 import {RouteComponentProps, withRouter} from "react-router";
 import {getCookie, setCookie} from "../utils/Cookies";
 import {isMobile} from "../utils/Utils";
-import {inherits} from "util";
 
 const useStyle = makeStyles((theme: Theme) => createStyles({
     root: {
@@ -121,6 +120,16 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
                 `发布时间 : ${timeStampSecToDate(article.created_at)}`,
                 `字数 : ${article.content.length}`
             ];
+            const onCatalogClick = (catalog:string) => {
+                let name = catalog.replace(/[. '",~!@#$%^&*()_+=\-/\\]/gmi, "-");
+                let anchor:any = document.querySelector(`#${name}`);
+                if (anchor !== null) {
+                    // @ts-ignore
+                    window.document.scrollingElement.scrollTop = anchor.offsetTop - 100;
+                    document.body.scrollTop = anchor.offsetTop;
+                }
+            };
+
             return (
                 <Grid container justify={"center"} spacing={1}>
                     <Grid item={true} className={`${styles.root} main-content`} xs={12} md={9}>
@@ -156,8 +165,9 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
                                 <ul className={styles.ul}>
                                     {heads.map((value) => (
                                         <li key={value}>
-                                            <a className={styles.a}
-                                               href={`#${value.replace(/[. '",~!@#$%^&*()_+=\-/\\]/gmi, "-")}`}>{value}</a>
+                                            <a className={`${styles.a} ${value}`}
+                                               href={`#---${value.replace(/[. '",~!@#$%^&*()_+=\-/\\]/gmi, "-")}`}
+                                               onClick={()=>{onCatalogClick(value)}}>{value}</a>
                                         </li>))}
                                 </ul>
                             </Paper>
