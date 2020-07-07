@@ -104,11 +104,16 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
             return (<div/>)
         } else {
             const headRegex = /^## ([^\n]+)$/gmi;
+            const secondRegex = /^### ([^\n]+)$/gmi;
             let find = headRegex.exec(article.content);
             let heads = [];
             while (find !== null) {
                 heads.push(find[1]);
                 find = headRegex.exec(article.content);
+            }
+            let secFind = secondRegex.exec(article.content);
+            while (find !== null){
+                secFind = secondRegex.exec(article.content);
             }
             // for (let i = 0; i < heads.length; i++) {
             //     heads[i] = heads[i]
