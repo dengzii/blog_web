@@ -58,6 +58,11 @@ const useStyle = makeStyles((theme: Theme) => createStyles({
 
 let emptyArticle: Article;
 
+interface Catalog {
+    name: string
+    children: Catalog[]
+}
+
 const ArticleTab = withRouter((props: RouteComponentProps) => {
 
         const [article, setArticle] = useState(emptyArticle);
@@ -100,24 +105,27 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
 
         const styles = useStyle();
 
+        const findHeading = (regex: RegExp): { index: any, head: string }[] => {
+            let find = regex.exec(article.content);
+            let headings: { index: any, head: string }[] = [];
+            while (find !== null) {
+                headings.push({index: find[2], head: find[1]});
+                find = regex.exec(article.content);
+            }
+            return headings
+        };
+
         if (article === undefined || article === null) {
             return (<div/>)
         } else {
-            const headRegex = /^## ([^\n]+)$/gmi;
-            const secondRegex = /^### ([^\n]+)$/gmi;
-            let find = headRegex.exec(article.content);
-            let heads = [];
-            while (find !== null) {
-                heads.push(find[1]);
-                find = headRegex.exec(article.content);
-            }
-            let secFind = secondRegex.exec(article.content);
-            while (find !== null){
-                secFind = secondRegex.exec(article.content);
-            }
-            // for (let i = 0; i < heads.length; i++) {
-            //     heads[i] = heads[i]
-            // }
+            let headings: Catalog = {name: "Catalog", children: []};
+            const head1 = findHeading(/^# ([^\n]+)$/gmi);
+            const head2 = findHeading(/^## ([^\n]+)$/gmi);
+            const head3 = findHeading(/^### ([^\n]+)$/gmi);
+
+            head3.forEach((i) => {
+                headings.children.push({name: i.head, children: []})
+            });
             const infos = [
                 `分类 : ${article.category_name}`,
                 `作者 : ${article.author_name}`,
@@ -125,9 +133,9 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
                 `发布时间 : ${timeStampSecToDate(article.created_at)}`,
                 `字数 : ${article.content.length}`
             ];
-            const onCatalogClick = (catalog:string) => {
+            const onCatalogClick = (catalog: string) => {
                 let name = catalog.replace(/[. '",~!@#$%^&*()_+=\-/\\]/gmi, "-");
-                let anchor:any = document.querySelector(`#${name}`);
+                let anchor: any = document.querySelector(`#${name}`);
                 if (anchor !== null) {
                     // @ts-ignore
                     window.document.scrollingElement.scrollTop = anchor.offsetTop - 100;
@@ -168,11 +176,13 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
                             <Paper elevation={1} className={styles.catalog}>
                                 <ListItem>目录</ListItem>
                                 <ul className={styles.ul}>
-                                    {heads.map((value) => (
-                                        <li key={value}>
+                                    {head1.map((value) => (
+                                        <li key={value.head}>
                                             <a className={`${styles.a} ${value}`}
-                                               href={`#---${value.replace(/[. '",~!@#$%^&*()_+=\-/\\]/gmi, "-")}`}
-                                               onClick={()=>{onCatalogClick(value)}}>{value}</a>
+                                               href={`#---${value.head.replace(/[. '",~!@#$%^&*()_+=\-/\\]/gmi, "-")}`}
+                                               onClick={() => {
+                                                   onCatalogClick(value.head)
+                                               }}>{value.head}</a>
                                         </li>))}
                                 </ul>
                             </Paper>
