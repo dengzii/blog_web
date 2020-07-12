@@ -33,7 +33,7 @@ const useStyle = makeStyles((theme: Theme) => createStyles({
     fixedSideCard: {
         position: "fixed",
         top: "60px",
-        width: "inherit"
+        width: "250px"
     },
     catalog: {
         marginTop: theme.spacing(1),
@@ -42,6 +42,8 @@ const useStyle = makeStyles((theme: Theme) => createStyles({
     },
     ul: {
         marginTop: "0px",
+        marginLeft:theme.spacing(2),
+        marginRight:theme.spacing(2),
         marginBottom: theme.spacing(2)
     },
     a: {
@@ -53,7 +55,13 @@ const useStyle = makeStyles((theme: Theme) => createStyles({
         "&:hover": {
             color: theme.palette.info.main
         }
-    }
+    },
+    catalogHeading1: {}, catalogHeading2: {
+        margin:"0px",
+        backgroundColor:theme.palette.background.default
+    }, catalogHeading3: {
+        margin:"0px 16px",
+    }, catalogHeading4: {}
 }));
 
 let emptyArticle: Article;
@@ -61,6 +69,12 @@ let emptyArticle: Article;
 interface Catalog {
     name: string
     children: Catalog[]
+}
+
+interface Heading {
+    index: any,
+    head: string,
+    level: number
 }
 
 const ArticleTab = withRouter((props: RouteComponentProps) => {
@@ -104,28 +118,16 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
         }, []);
 
         const styles = useStyle();
-
-        const findHeading = (regex: RegExp): { index: any, head: string }[] => {
-            let find = regex.exec(article.content);
-            let headings: { index: any, head: string }[] = [];
-            while (find !== null) {
-                headings.push({index: find[2], head: find[1]});
-                find = regex.exec(article.content);
-            }
-            return headings
-        };
-
         if (article === undefined || article === null) {
             return (<div/>)
         } else {
-            let headings: Catalog = {name: "Catalog", children: []};
-            const head1 = findHeading(/^# ([^\n]+)$/gmi);
-            const head2 = findHeading(/^## ([^\n]+)$/gmi);
-            const head3 = findHeading(/^### ([^\n]+)$/gmi);
 
-            head3.forEach((i) => {
-                headings.children.push({name: i.head, children: []})
-            });
+            let heads = findHeading(article.content, /^# ([^\n]+)$/gmi, 1);
+            heads = heads.concat(findHeading(article.content, /^## ([^\n]+)$/gmi, 2));
+            heads = heads.concat(findHeading(article.content, /^### ([^\n]+)$/gmi, 3));
+            heads = heads.concat(findHeading(article.content, /^#### ([^\n]+)$/gmi, 3));
+            heads = quickSort(heads);
+
             const infos = [
                 `分类 : ${article.category_name}`,
                 `作者 : ${article.author_name}`,
@@ -175,16 +177,14 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
                             </Paper>
                             <Paper elevation={1} className={styles.catalog}>
                                 <ListItem>目录</ListItem>
-                                <ul className={styles.ul}>
-                                    {head1.map((value) => (
-                                        <li key={value.head}>
-                                            <a className={`${styles.a} ${value}`}
-                                               href={`#---${value.head.replace(/[. '",~!@#$%^&*()_+=\-/\\]/gmi, "-")}`}
-                                               onClick={() => {
-                                                   onCatalogClick(value.head)
-                                               }}>{value.head}</a>
-                                        </li>))}
-                                </ul>
+                                <div className={styles.ul}>
+                                    {heads.map((value) => (
+                                        <p key={value.head}
+                                            className={value.level === 2 ? styles.catalogHeading2 : styles.catalogHeading3}>
+                                            <Typography component={"span"} variant={"body2"} className={`${styles.a} ${value}`}
+                                               onClick={() => {onCatalogClick(value.head)}}>{value.head}</Typography>
+                                        </p>))}
+                                </div>
                             </Paper>
                         </Grid>
                     </Grid>
@@ -193,6 +193,34 @@ const ArticleTab = withRouter((props: RouteComponentProps) => {
         }
     }
 );
+
+function findHeading(content: string, regex: RegExp, level: number): Heading[] {
+    let find = regex.exec(content);
+    let headings: Heading[] = [];
+    while (find !== null) {
+        headings.push({index: find.index, head: find[1], level: level});
+        find = regex.exec(content);
+    }
+    return headings
+}
+
+function quickSort(arr: Heading[]): Heading[] {
+    if (arr.length <= 1) {
+        return arr;
+    }
+    let pivotIndex = Math.floor(arr.length / 2);
+    let pivot = arr.splice(pivotIndex, 1)[0];
+    let left: Heading[] = [];
+    let right: Heading[] = [];
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i].index < pivot.index) {
+            left.push(arr[i]);
+        } else {
+            right.push(arr[i]);
+        }
+    }
+    return quickSort(left).concat([pivot], quickSort(right));
+}
 
 export default ArticleTab
 
