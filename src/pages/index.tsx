@@ -18,6 +18,7 @@ import {getProfile, viewSite} from "../api/Api";
 import {Profile} from "../api/model";
 import Fade from "@material-ui/core/Fade";
 import {isMobile} from "../utils/Utils";
+import Md2Pdf from "./Md2Pdf";
 
 let useStyle = makeStyles((theme: Theme) =>
     createStyles({
@@ -63,7 +64,12 @@ const emptyProfile: Profile = {
 export default function Index() {
     return (
         <Fade in={true} timeout={1000}>
-            <Main/>
+            <BrowserRouter>
+                <Switch>
+                    <Route path={"/md2pdf"} exact={true} children={<Md2Pdf/>}/>
+                    <Route path={"*"} exact={false} children={<Main/>}/>
+                </Switch>
+            </BrowserRouter>
         </Fade>)
 }
 
